@@ -33,6 +33,21 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais gagné un concours.",
     "Je n'ai jamais perdu mon portefeuille.",
     "Je n'ai jamais mangé quelque chose que j'avais fait tomber par terre.",
+    "Je n'ai jamais appris à jouer d'un instrument de musique.",
+    "Je n'ai jamais cassé mon téléphone en le faisant tomber.",
+    "Je n'ai jamais dansé sous la pluie.",
+    "Je n'ai jamais écrit une lettre à la main à quelqu'un.",
+    "Je n'ai jamais fait du shopping le Black Friday.",
+    "Je n'ai jamais regardé le lever du soleil volontairement.",
+    "Je n'ai jamais participé à un marathon ou une course.",
+    "Je n'ai jamais essayé de faire pousser une plante et échoué.",
+    "Je n'ai jamais pris un bain de minuit.",
+    "Je n'ai jamais appelé quelqu'un par le mauvais prénom pendant des mois.",
+    "Je n'ai jamais mangé un plat typique que je ne connaissais pas du tout.",
+    "Je n'ai jamais fait une sieste en public (transports, parc, etc).",
+    "Je n'ai jamais passé une nuit blanche à parler avec quelqu'un.",
+    "Je n'ai jamais essayé de réparer quelque chose et empiré la situation.",
+    "Je n'ai jamais raconté la même histoire deux fois à la même personne.",
   ],
   spicy: [
     "Je n'ai jamais embrassé quelqu'un le premier soir.",
@@ -47,6 +62,19 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais embrassé deux personnes le même jour.",
     "Je n'ai jamais eu un coup de cœur pour le/la partenaire d'un(e) ami(e).",
     "Je n'ai jamais eu un plan cul qui s'est transformé en relation.",
+    "Je n'ai jamais fait semblant d'avoir un rendez-vous pour éviter quelqu'un.",
+    "Je n'ai jamais raconté un mensonge à un rencard pour l'impressionner.",
+    "Je n'ai jamais utilisé Tinder ou une app de rencontre au travail.",
+    "Je n'ai jamais embrassé quelqu'un juste pour rendre quelqu'un d'autre jaloux.",
+    "Je n'ai jamais eu un rendez-vous galant en cachette.",
+    "Je n'ai jamais flirté avec deux personnes en même temps sans qu'elles le sachent.",
+    "Je n'ai jamais regretté d'avoir donné mon numéro à quelqu'un.",
+    "Je n'ai jamais fantasmé sur quelqu'un pendant un rendez-vous avec quelqu'un d'autre.",
+    "Je n'ai jamais fait semblant de ne pas connaître quelqu'un après une soirée.",
+    "Je n'ai jamais eu un rencard dans un endroit totalement inapproprié.",
+    "Je n'ai jamais embrassé quelqu'un dont je ne connaissais pas le nom.",
+    "Je n'ai jamais dragué quelqu'un en utilisant une phrase d'accroche ridicule.",
+    "Je n'ai jamais eu un crush pour quelqu'un beaucoup plus jeune ou âgé que moi.",
   ],
   hot: [
     "Je n'ai jamais eu une aventure d'un soir dont je ne me souviens pas vraiment.",
@@ -60,6 +88,17 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais eu une relation secrète que personne ne connaissait.",
     "Je n'ai jamais trompé quelqu'un.",
     "Je n'ai jamais été attiré(e) par plusieurs personnes en même temps.",
+    "Je n'ai jamais eu une aventure avec quelqu'un que je venais de rencontrer.",
+    "Je n'ai jamais participé à un plan à trois ou plus.",
+    "Je n'ai jamais eu une relation avec quelqu'un en couple.",
+    "Je n'ai jamais exploré un fantasme que je n'aurais jamais imaginé essayer.",
+    "Je n'ai jamais eu une nuit dont je ne peux parler à personne.",
+    "Je n'ai jamais utilisé un jouet intime.",
+    "Je n'ai jamais eu une attirance physique incontrôlable pour quelqu'un.",
+    "Je n'ai jamais tenté quelque chose d'audacieux au lit pour la première fois.",
+    "Je n'ai jamais eu une relation physique avec un(e) ex après la rupture.",
+    "Je n'ai jamais fait quelque chose d'intime dans un lieu complètement interdit.",
+    "Je n'ai jamais eu un plan cul régulier pendant des mois.",
   ],
   hardcore: [
     "Je n'ai jamais fait un truc vraiment dangereux pour épater quelqu'un.",
@@ -68,11 +107,23 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais participé à une bagarre.",
     "Je n'ai jamais eu une crise de panique en public.",
     "Je n'ai jamais fait une connerie qui aurait pu me coûter très cher.",
-    "Je n'ai jamais trahit la confiance d'un(e) ami(e) proche.",
+    "Je n'ai jamais trahi la confiance d'un(e) ami(e) proche.",
     "Je n'ai jamais menti sur quelque chose de vraiment important.",
     "Je n'ai jamais eu envie de tout plaquer et disparaître.",
     "Je n'ai jamais fait semblant d'être quelqu'un d'autre en ligne.",
     "Je n'ai jamais fait quelque chose dont j'ai vraiment honte.",
+    "Je n'ai jamais eu des pensées vraiment sombres que je n'ai jamais osé partager.",
+    "Je n'ai jamais blessé volontairement quelqu'un émotionnellement.",
+    "Je n'ai jamais fait quelque chose d'irréversible que je regrette profondément.",
+    "Je n'ai jamais eu une addiction à quelque chose (jeu, alcool, autre).",
+    "Je n'ai jamais pensé sérieusement à quitter mon pays définitivement.",
+    "Je n'ai jamais été impliqué(e) dans un accident grave.",
+    "Je n'ai jamais volé quelque chose de grande valeur.",
+    "Je n'ai jamais vécu une situation où j'ai vraiment eu peur pour ma vie.",
+    "Je n'ai jamais fait quelque chose d'illégal qui aurait pu me mener en prison.",
+    "Je n'ai jamais coupé les ponts avec ma famille pendant longtemps.",
+    "Je n'ai jamais eu un secret si lourd que ça m'empêche de dormir.",
+    "Je n'ai jamais saboté volontairement la vie de quelqu'un.",
   ],
   gross: [
     "Je n'ai jamais vomi en public à cause de l'alcool.",
@@ -85,6 +136,18 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais recraché de la nourriture en public.",
     "Je n'ai jamais eu une hygiène douteuse pendant un voyage.",
     "Je n'ai jamais mangé directement dans une poubelle (type restes).",
+    "Je n'ai jamais reniflé un vêtement pour savoir si je pouvais le porter encore.",
+    "Je n'ai jamais laissé de la vaisselle sale pendant plus d'une semaine.",
+    "Je n'ai jamais eu une intoxication alimentaire à cause de ma propre cuisine.",
+    "Je n'ai jamais utilisé les toilettes avec quelqu'un d'autre dans la pièce.",
+    "Je n'ai jamais mangé quelque chose tombé par terre en public.",
+    "Je n'ai jamais porté des sous-vêtements à l'envers parce qu'ils étaient sales.",
+    "Je n'ai jamais eu des champignons aux pieds ou ongles.",
+    "Je n'ai jamais pété bruyamment en public et fait semblant que ce n'était pas moi.",
+    "Je n'ai jamais partagé une brosse à dents avec quelqu'un.",
+    "Je n'ai jamais bu directement à une bouteille/carton de lait dans le frigo.",
+    "Je n'ai jamais eu un rendez-vous alors que j'avais une hygiène douteuse.",
+    "Je n'ai jamais mangé avec les mains un plat qui nécessitait des couverts.",
   ],
   illicit: [
     "Je n'ai jamais conduit sans permis.",
@@ -97,6 +160,18 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais consommé une substance interdite.",
     "Je n'ai jamais menti sur un document officiel.",
     "Je n'ai jamais téléchargé illégalement des films ou séries.",
+    "Je n'ai jamais utilisé le WiFi du voisin sans permission.",
+    "Je n'ai jamais revendu quelque chose qui ne m'appartenait pas.",
+    "Je n'ai jamais fait un faux témoignage pour aider quelqu'un.",
+    "Je n'ai jamais gardé quelque chose que j'ai trouvé et qui avait de la valeur.",
+    "Je n'ai jamais conduit en ayant bu plus que la limite autorisée.",
+    "Je n'ai jamais triché lors d'un examen officiel.",
+    "Je n'ai jamais enfreint un couvre-feu ou règlement municipal.",
+    "Je n'ai jamais utilisé un faux billet ou moyen de paiement.",
+    "Je n'ai jamais traversé une frontière avec quelque chose d'interdit.",
+    "Je n'ai jamais menti aux autorités pour éviter une amende.",
+    "Je n'ai jamais acheté ou vendu quelque chose sur le marché noir.",
+    "Je n'ai jamais falsifié une signature ou un document.",
   ],
   travel: [
     "Je n'ai jamais raté mon vol à cause d'une erreur de ma part.",
@@ -110,6 +185,20 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais visité un continent autre que l'Europe.",
     "Je n'ai jamais fait un voyage complètement improvisé.",
     "Je n'ai jamais pris l'avion en première classe.",
+    "Je n'ai jamais voyagé en solo pendant plus d'un mois.",
+    "Je n'ai jamais raté une correspondance et dû dormir dans une gare/aéroport.",
+    "Je n'ai jamais été arnaqué(e) dans un pays étranger.",
+    "Je n'ai jamais voyagé dans un pays sans parler la langue du tout.",
+    "Je n'ai jamais eu un problème avec mon passeport ou visa à la frontière.",
+    "Je n'ai jamais fait un road trip de plus de 1000 km.",
+    "Je n'ai jamais dormi dans un endroit vraiment bizarre en voyage (gare, banc, etc).",
+    "Je n'ai jamais visité un pays considéré comme dangereux.",
+    "Je n'ai jamais eu une aventure amoureuse lors d'un voyage.",
+    "Je n'ai jamais oublié quelque chose d'important dans un hôtel ou transport.",
+    "Je n'ai jamais fait un voyage dont je suis revenu(e) plus fatigué(e) qu'avant.",
+    "Je n'ai jamais voyagé en train de nuit.",
+    "Je n'ai jamais fait un voyage uniquement pour la nourriture locale.",
+    "Je n'ai jamais eu une urgence médicale en voyage à l'étranger.",
   ],
   work_school: [
     "Je n'ai jamais séché un cours ou une journée de travail sans raison.",
@@ -122,6 +211,18 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais été viré(e) ou renvoyé(e).",
     "Je n'ai jamais pleuré au travail ou à l'école.",
     "Je n'ai jamais volé quelque chose au bureau.",
+    "Je n'ai jamais fait semblant d'être malade pour ne pas aller travailler/étudier.",
+    "Je n'ai jamais utilisé le matériel du bureau/école à des fins personnelles.",
+    "Je n'ai jamais eu une dispute sérieuse avec un(e) collègue ou camarade.",
+    "Je n'ai jamais raté une deadline importante par pure procrastination.",
+    "Je n'ai jamais menti sur mes qualifications ou compétences.",
+    "Je n'ai jamais été impliqué(e) dans des ragots au travail ou à l'école.",
+    "Je n'ai jamais fait une présentation complètement improvisée.",
+    "Je n'ai jamais pris le crédit pour le travail de quelqu'un d'autre.",
+    "Je n'ai jamais eu une relation amoureuse secrète au travail ou à l'école.",
+    "Je n'ai jamais démissionné ou abandonné quelque chose sans préavis.",
+    "Je n'ai jamais passé plus de temps sur mon téléphone que sur mon travail.",
+    "Je n'ai jamais inventé une excuse complètement fausse pour justifier un retard.",
   ],
   online: [
     "Je n'ai jamais stalké mon ex sur les réseaux sociaux.",
@@ -134,6 +235,20 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais acheté des followers ou des likes.",
     "Je n'ai jamais passé plus de 5 heures d'affilée sur les réseaux sociaux.",
     "Je n'ai jamais eu une dispute uniquement par messages.",
+    "Je n'ai jamais regardé le profil de quelqu'un en cachette (mode privé/anonyme).",
+    "Je n'ai jamais partagé une photo de quelqu'un sans sa permission.",
+    "Je n'ai jamais menti sur mon apparence sur une photo de profil.",
+    "Je n'ai jamais vérifié si quelqu'un a vu mon message et stressé à ce sujet.",
+    "Je n'ai jamais supprimé et reposté la même chose pour avoir plus de likes.",
+    "Je n'ai jamais eu une dispute avec quelqu'un que je n'ai jamais rencontré IRL.",
+    "Je n'ai jamais comparé ma vie à celle des autres sur les réseaux et été jaloux(se).",
+    "Je n'ai jamais posté quelque chose juste pour rendre quelqu'un jaloux.",
+    "Je n'ai jamais fait semblant de ne pas voir un message pour jouer.",
+    "Je n'ai jamais été dans un groupe de discussion toxique.",
+    "Je n'ai jamais scrollé les réseaux au lieu de dormir jusqu'à 3h du matin.",
+    "Je n'ai jamais regretté un commentaire ou post publié sous le coup de l'émotion.",
+    "Je n'ai jamais utilisé une app de rencontre juste pour le divertissement.",
+    "Je n'ai jamais archivé ou masqué des posts pour que certaines personnes ne les voient pas.",
   ],
   couple: [
     "Je n'ai jamais dit 'je t'aime' sans le penser vraiment.",
@@ -147,6 +262,19 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais eu envie de rompre mais ne pas avoir osé.",
     "Je n'ai jamais eu une relation qui a duré moins d'une semaine.",
     "Je n'ai jamais été jaloux(se) au point de faire quelque chose de fou.",
+    "Je n'ai jamais fouillé dans les affaires de mon/ma partenaire.",
+    "Je n'ai jamais fait semblant d'aimer quelque chose pour plaire à mon/ma partenaire.",
+    "Je n'ai jamais pleuré à cause d'une rupture.",
+    "Je n'ai jamais eu un doute sérieux sur mon/ma partenaire sans en parler.",
+    "Je n'ai jamais été tenté(e) de tromper mon/ma partenaire.",
+    "Je n'ai jamais fait un gros mensonge dans une relation.",
+    "Je n'ai jamais regretté d'être entré(e) en couple avec quelqu'un.",
+    "Je n'ai jamais eu une dispute qui a failli tout détruire.",
+    "Je n'ai jamais comparé mon/ma partenaire à un(e) ex.",
+    "Je n'ai jamais passé plus de temps sur mon téléphone qu'avec mon/ma partenaire.",
+    "Je n'ai jamais remis en question toute ma relation à cause d'un détail.",
+    "Je n'ai jamais été en couple juste pour ne pas être seul(e).",
+    "Je n'ai jamais caché une relation à mes proches.",
   ],
 };
 
@@ -163,25 +291,72 @@ const ALL_CATEGORIES: NhiCategoryId[] = [
   "couple",
 ];
 
-const CATEGORY_META: { id: NhiCategoryId; label: string; accent: string }[] = [
-  { id: "basic", label: "Basic 🍺", accent: "from-sky-500 to-cyan-500" },
-  { id: "spicy", label: "Spicy 🔥", accent: "from-pink-500 to-rose-500" },
-  { id: "hot", label: "Hot 18+ 💋", accent: "from-fuchsia-500 to-rose-500" },
+const CATEGORY_META: {
+  id: NhiCategoryId;
+  label: string;
+  accent: string;
+  shadow: string;
+}[] = [
+  {
+    id: "basic",
+    label: "Basic 🍺",
+    accent: "from-sky-500 to-cyan-500",
+    shadow: "shadow-sky-500/40",
+  },
+  {
+    id: "spicy",
+    label: "Spicy 🔥",
+    accent: "from-pink-500 to-rose-500",
+    shadow: "shadow-pink-500/40",
+  },
+  {
+    id: "hot",
+    label: "Hot 18+ 💋",
+    accent: "from-fuchsia-500 to-rose-500",
+    shadow: "shadow-fuchsia-500/40",
+  },
   {
     id: "hardcore",
     label: "Hardcore 🤯",
     accent: "from-violet-500 to-indigo-500",
+    shadow: "shadow-violet-500/40",
   },
-  { id: "gross", label: "Trash 🤢", accent: "from-lime-500 to-emerald-500" },
-  { id: "illicit", label: "Illicit 🚫", accent: "from-red-500 to-orange-500" },
-  { id: "travel", label: "Travel ✈️", accent: "from-emerald-500 to-teal-500" },
+  {
+    id: "gross",
+    label: "Trash 🤢",
+    accent: "from-lime-500 to-emerald-500",
+    shadow: "shadow-lime-500/40",
+  },
+  {
+    id: "illicit",
+    label: "Illicit 🚫",
+    accent: "from-red-500 to-orange-500",
+    shadow: "shadow-red-500/40",
+  },
+  {
+    id: "travel",
+    label: "Travel ✈️",
+    accent: "from-emerald-500 to-teal-500",
+    shadow: "shadow-emerald-500/40",
+  },
   {
     id: "work_school",
     label: "Work/School 📚",
     accent: "from-amber-500 to-orange-500",
+    shadow: "shadow-amber-500/40",
   },
-  { id: "online", label: "Online 💻", accent: "from-blue-500 to-sky-500" },
-  { id: "couple", label: "Couple 💞", accent: "from-rose-500 to-pink-500" },
+  {
+    id: "online",
+    label: "Online 💻",
+    accent: "from-blue-500 to-sky-500",
+    shadow: "shadow-blue-500/40",
+  },
+  {
+    id: "couple",
+    label: "Couple 💞",
+    accent: "from-rose-500 to-pink-500",
+    shadow: "shadow-rose-500/40",
+  },
 ];
 
 type DeckCard =
@@ -349,11 +524,18 @@ export default function NeverHaveIEverPage() {
         <div className="mb-4 flex flex-wrap gap-2">
           <button
             onClick={handleToggleAll}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
               selectedCategories.length === ALL_CATEGORIES.length
-                ? "border-fuchsia-400 bg-fuchsia-500/20 text-fuchsia-100 shadow-lg shadow-fuchsia-500/30"
-                : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-400"
+                ? "scale-[1.04] border-white/20 bg-fuchsia-500/30 text-fuchsia-100 shadow-lg shadow-fuchsia-500/40"
+                : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
             }`}
+            style={
+              selectedCategories.length === ALL_CATEGORIES.length
+                ? {
+                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                  }
+                : undefined
+            }
           >
             All mix 🎲
           </button>
@@ -364,11 +546,18 @@ export default function NeverHaveIEverPage() {
               <button
                 key={cat.id}
                 onClick={() => handleToggleCategory(cat.id)}
-                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
                   active
-                    ? `border-transparent bg-gradient-to-r ${cat.accent} text-white shadow-lg shadow-black/30`
-                    : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-400"
+                    ? `scale-[1.04] border-white/20 bg-gradient-to-r ${cat.accent} text-white shadow-lg ${cat.shadow}`
+                    : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
                 }`}
+                style={
+                  active
+                    ? {
+                        textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                      }
+                    : undefined
+                }
               >
                 {cat.label}
               </button>
@@ -377,11 +566,18 @@ export default function NeverHaveIEverPage() {
 
           <button
             onClick={() => setIncludeCustomBlanks((v) => !v)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
               includeCustomBlanks
-                ? "border-emerald-400 bg-emerald-500/20 text-emerald-100 shadow-lg shadow-emerald-500/30"
-                : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-400"
+                ? "scale-[1.04] border-white/20 bg-emerald-500/30 text-emerald-100 shadow-lg shadow-emerald-500/40"
+                : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
             }`}
+            style={
+              includeCustomBlanks
+                ? {
+                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                  }
+                : undefined
+            }
           >
             Free theme ✏️
           </button>
