@@ -55,8 +55,8 @@ export default function KingsPage() {
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
   const [ruleDraft, setRuleDraft] = useState("");
 
-  // État pour le panel des règles
-  const [isRulesPanelOpen, setIsRulesPanelOpen] = useState(false);
+  // État pour le modal des règles officielles
+  const [isOfficialRulesOpen, setIsOfficialRulesOpen] = useState(false);
 
   const activePlayer = players.length ? players[currentIndex % players.length] : null;
 
@@ -167,15 +167,10 @@ export default function KingsPage() {
             </Badge>
 
             <button
-              onClick={() => setIsRulesPanelOpen(true)}
+              onClick={() => setIsOfficialRulesOpen(true)}
               className="rounded-full border border-slate-600/60 bg-slate-900/60 px-3 py-1 text-xs font-medium text-slate-200 hover:border-slate-400 hover:text-slate-50 transition-all"
             >
-              📜 Règles de la partie
-              {partyRules.length > 0 && (
-                <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-fuchsia-500/20 text-[10px] font-semibold text-fuchsia-300">
-                  {partyRules.length}
-                </span>
-              )}
+              📜 Règles du King's
             </button>
 
             <div style={{ fontSize: "0.8rem", color: "var(--text-soft)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
@@ -377,6 +372,58 @@ export default function KingsPage() {
               </div>
             </div>
           )}
+
+          {/* Section règles inventées */}
+          {partyRules.length > 0 && (
+            <div className="mt-4 border-t border-white/5 pt-3 text-xs text-slate-300">
+              <div className="mb-1 flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                <span>📜 RÈGLES INVENTÉES</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {partyRules
+                  .slice()
+                  .sort((a, b) => a.createdAt - b.createdAt)
+                  .map((rule) => (
+                    <div
+                      key={rule.id}
+                      className="rounded-xl border border-slate-700/70 bg-slate-900/80 px-3 py-2"
+                    >
+                      <div className="mb-1 flex items-center justify-between gap-2">
+                        <button
+                          onClick={() => usePartyStore.getState().togglePartyRule(rule.id)}
+                          className={`text-[11px] font-medium ${
+                            rule.active ? "text-emerald-300" : "text-slate-500"
+                          }`}
+                        >
+                          {rule.active ? "Active" : "Inactive"}
+                        </button>
+                        <button
+                          onClick={() => usePartyStore.getState().removePartyRule(rule.id)}
+                          className="text-[11px] text-slate-500 hover:text-rose-400"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                      <p
+                        className={`whitespace-pre-wrap text-[13px] ${
+                          rule.active ? "text-slate-100" : "text-slate-500 line-through"
+                        }`}
+                      >
+                        {rule.text}
+                      </p>
+                      {rule.createdByName && (
+                        <p className="mt-1 text-[11px] text-slate-500">
+                          Proposée par{" "}
+                          <span className="font-medium text-slate-300">
+                            {rule.createdByName}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
         </Card>
       </div>
 
@@ -419,13 +466,10 @@ export default function KingsPage() {
         }}
       />
 
-      {/* Panel des règles de la partie */}
-      <PartyRulesPanel
-        isOpen={isRulesPanelOpen}
-        onClose={() => setIsRulesPanelOpen(false)}
-        rules={partyRules}
-        onToggle={(id) => usePartyStore.getState().togglePartyRule(id)}
-        onRemove={(id) => usePartyStore.getState().removePartyRule(id)}
+      {/* Modal règles officielles du King's */}
+      <OfficialRulesModal
+        isOpen={isOfficialRulesOpen}
+        onClose={() => setIsOfficialRulesOpen(false)}
       />
     </FadeIn>
   );
@@ -572,32 +616,43 @@ function PartyRuleModal({
   );
 }
 
-// Composant Panel pour consulter les règles de la partie
-function PartyRulesPanel({
+// Composant Modal pour afficher les règles officielles du King's
+function OfficialRulesModal({
   isOpen,
   onClose,
-  rules,
-  onToggle,
-  onRemove,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  rules: PartyRule[];
-  onToggle: (id: string) => void;
-  onRemove: (id: string) => void;
 }) {
   if (!isOpen) return null;
 
+  const rules = [
+    { label: "A à 6", text: "Distribue le nombre de gorgées indiqué par la carte." },
+    { label: "7", text: "Invente une règle pour la partie (carnet de règles)." },
+    { label: "8", text: "Distribue un cul sec à la personne de ton choix." },
+    {
+      label: "9",
+      text: "Familles : choisissez un thème, chacun doit donner un mot. Si tu bloques, tu bois.",
+    },
+    { label: "10", text: "Tout le monde boit." },
+    { label: "Valet (J)", text: "Tous les hommes boivent." },
+    { label: "Dame (Q)", text: "Toutes les femmes boivent." },
+    {
+      label: "Roi (K)",
+      text: "Pote de soirée : choisis ton ou ta pote. Si l'un boit, l'autre boit aussi. Les rois peuvent agrandir l'équipe.",
+    },
+  ];
+
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-end bg-black/40 backdrop-blur-sm">
-      <div className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-slate-950/95 p-5 shadow-2xl">
-        <div className="mb-4 flex items-center justify-between">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950/95 p-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div className="mb-3 flex items-center justify-between">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-              RÈGLES DE LA PARTIE
+              RÈGLES DU KING'S
             </h2>
             <p className="text-xs text-slate-400">
-              Règles inventées en cours de jeu (carte 7).
+              Rappel des valeurs des cartes pour cette variante.
             </p>
           </div>
           <button
@@ -608,72 +663,19 @@ function PartyRulesPanel({
           </button>
         </div>
 
-        {rules.length === 0 ? (
-          <p className="text-sm text-slate-400">
-            Aucune règle inventée pour l'instant. Tire un 7 pour créer une
-            règle.
-          </p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {rules
-              .slice()
-              .sort((a, b) => a.createdAt - b.createdAt)
-              .map((rule) => (
-                <div
-                  key={rule.id}
-                  className="rounded-xl border border-slate-700/70 bg-slate-900/80 p-3 text-sm text-slate-100"
-                >
-                  <div className="mb-1 flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => onToggle(rule.id)}
-                        className={`h-4 w-4 rounded-full border transition ${
-                          rule.active
-                            ? "border-emerald-400 bg-emerald-400"
-                            : "border-slate-500 bg-slate-900"
-                        }`}
-                        aria-label={
-                          rule.active ? "Règle active" : "Règle inactive"
-                        }
-                      />
-                      <span
-                        className={`text-xs ${
-                          rule.active
-                            ? "text-emerald-300"
-                            : "text-slate-400 line-through"
-                        }`}
-                      >
-                        {rule.active ? "Active" : "Inactive"}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => onRemove(rule.id)}
-                      className="text-[11px] text-slate-500 hover:text-rose-400"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-                  <p
-                    className={`whitespace-pre-wrap text-[13px] ${
-                      rule.active
-                        ? "text-slate-100"
-                        : "text-slate-400 line-through"
-                    }`}
-                  >
-                    {rule.text}
-                  </p>
-                  {rule.createdByName && (
-                    <p className="mt-1 text-[11px] text-slate-500">
-                      Proposée par{" "}
-                      <span className="font-medium text-slate-300">
-                        {rule.createdByName}
-                      </span>
-                    </p>
-                  )}
-                </div>
-              ))}
-          </div>
-        )}
+        <div className="flex flex-col gap-2">
+          {rules.map((r) => (
+            <div
+              key={r.label}
+              className="rounded-xl border border-slate-700/70 bg-slate-900/80 px-3 py-2"
+            >
+              <div className="text-xs font-semibold text-slate-100 mb-0.5">
+                {r.label}
+              </div>
+              <div className="text-[13px] text-slate-300">{r.text}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
