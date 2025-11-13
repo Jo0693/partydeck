@@ -32,13 +32,19 @@ export function Badge({
   return <span className={base + extra}>{children}</span>;
 }
 
-export const PrimaryButton: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }
-> = ({ children, className = "", ...props }) => (
+export const PrimaryButton = ({
+  children,
+  className = "",
+  ...props
+}: {
+  children: ReactNode;
+  className?: string;
+  [key: string]: any;
+}) => (
   <motion.button
     whileTap={{ scale: 0.96 }}
     className={`pd-btn-primary ${className}`}
-    {...props}
+    {...(props as any)}
   >
     {children}
   </motion.button>
