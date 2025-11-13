@@ -8,50 +8,223 @@ export type SegmentType =
   | "relance"
   | "culsec";
 
-export type RouletteSegment = {
+export type SegmentDef = {
   id: number;
   type: SegmentType;
-  label: string;
+  labelShort: string;
+  icon: string;
   color: string;
 };
 
-export const CLASSIC_SEGMENTS: RouletteSegment[] = [
-  { id: 0, type: "gorgee", label: "Gorgée", color: "#3b82f6" },
-  { id: 1, type: "defi", label: "Défi", color: "#8b5cf6" },
-  { id: 2, type: "verite", label: "Vérité", color: "#ec4899" },
-  { id: 3, type: "gage", label: "Gage", color: "#f97316" },
-  { id: 4, type: "gorgee", label: "Gorgée", color: "#3b82f6" },
-  { id: 5, type: "defi", label: "Défi", color: "#8b5cf6" },
-  { id: 6, type: "verite", label: "Vérité", color: "#ec4899" },
-  { id: 7, type: "joker", label: "Joker", color: "#eab308" },
-  { id: 8, type: "gorgee", label: "Gorgée", color: "#3b82f6" },
-  { id: 9, type: "culsec", label: "CUL SEC", color: "#dc2626" },
-  { id: 10, type: "gage", label: "Gage", color: "#f97316" },
-  { id: 11, type: "defi", label: "Défi", color: "#8b5cf6" },
-  { id: 12, type: "rien", label: "Rien", color: "#6b7280" },
-  { id: 13, type: "verite", label: "Vérité", color: "#ec4899" },
-  { id: 14, type: "culsec", label: "CUL SEC", color: "#dc2626" },
-  { id: 15, type: "gage", label: "Gage", color: "#f97316" },
-  { id: 16, type: "joker", label: "Joker", color: "#eab308" },
-  { id: 17, type: "culsec", label: "CUL SEC", color: "#dc2626" },
-];
-
-export const RELANCE_SEGMENT: RouletteSegment = {
-  id: 18,
-  type: "relance",
-  label: "Relance",
-  color: "#06b6d4",
+// Metadata for each segment type (for legend and result card)
+export const SEGMENT_TYPE_META: Record<
+  SegmentType,
+  {
+    label: string;
+    icon: string;
+    description: string;
+    color: string;
+  }
+> = {
+  gorgee: {
+    label: "Gorgées",
+    icon: "🍺",
+    description: "Bois 2-4 gorgées",
+    color: "#3b82f6",
+  },
+  defi: {
+    label: "Défi",
+    icon: "💪",
+    description: "Réalise un défi aléatoire",
+    color: "#8b5cf6",
+  },
+  verite: {
+    label: "Vérité",
+    icon: "💬",
+    description: "Réponds à une question vérité",
+    color: "#ec4899",
+  },
+  gage: {
+    label: "Gage",
+    icon: "🎭",
+    description: "Accomplis un gage embarrassant",
+    color: "#f97316",
+  },
+  joker: {
+    label: "Joker",
+    icon: "🎁",
+    description: "Donne ton action à quelqu'un",
+    color: "#eab308",
+  },
+  rien: {
+    label: "Rien",
+    icon: "❌",
+    description: "T'as de la chance... pour cette fois",
+    color: "#6b7280",
+  },
+  relance: {
+    label: "Relance",
+    icon: "🔁",
+    description: "La roue tourne encore une fois !",
+    color: "#06b6d4",
+  },
+  culsec: {
+    label: "Cul Sec",
+    icon: "💀",
+    description: "Bois ton verre d'un coup",
+    color: "#dc2626",
+  },
 };
 
-// Insert relance randomly in the array
-const insertRelance = () => {
+export const CLASSIC_SEGMENTS: SegmentDef[] = [
+  {
+    id: 0,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 1,
+    type: "defi",
+    labelShort: "Défi",
+    icon: "💪",
+    color: SEGMENT_TYPE_META.defi.color,
+  },
+  {
+    id: 2,
+    type: "verite",
+    labelShort: "Vérité",
+    icon: "💬",
+    color: SEGMENT_TYPE_META.verite.color,
+  },
+  {
+    id: 3,
+    type: "gage",
+    labelShort: "Gage",
+    icon: "🎭",
+    color: SEGMENT_TYPE_META.gage.color,
+  },
+  {
+    id: 4,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 5,
+    type: "defi",
+    labelShort: "Défi",
+    icon: "💪",
+    color: SEGMENT_TYPE_META.defi.color,
+  },
+  {
+    id: 6,
+    type: "verite",
+    labelShort: "Vérité",
+    icon: "💬",
+    color: SEGMENT_TYPE_META.verite.color,
+  },
+  {
+    id: 7,
+    type: "joker",
+    labelShort: "Joker",
+    icon: "🎁",
+    color: SEGMENT_TYPE_META.joker.color,
+  },
+  {
+    id: 8,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 9,
+    type: "culsec",
+    labelShort: "Cul Sec",
+    icon: "💀",
+    color: SEGMENT_TYPE_META.culsec.color,
+  },
+  {
+    id: 10,
+    type: "gage",
+    labelShort: "Gage",
+    icon: "🎭",
+    color: SEGMENT_TYPE_META.gage.color,
+  },
+  {
+    id: 11,
+    type: "defi",
+    labelShort: "Défi",
+    icon: "💪",
+    color: SEGMENT_TYPE_META.defi.color,
+  },
+  {
+    id: 12,
+    type: "rien",
+    labelShort: "Rien",
+    icon: "❌",
+    color: SEGMENT_TYPE_META.rien.color,
+  },
+  {
+    id: 13,
+    type: "verite",
+    labelShort: "Vérité",
+    icon: "💬",
+    color: SEGMENT_TYPE_META.verite.color,
+  },
+  {
+    id: 14,
+    type: "culsec",
+    labelShort: "Cul Sec",
+    icon: "💀",
+    color: SEGMENT_TYPE_META.culsec.color,
+  },
+  {
+    id: 15,
+    type: "gage",
+    labelShort: "Gage",
+    icon: "🎭",
+    color: SEGMENT_TYPE_META.gage.color,
+  },
+  {
+    id: 16,
+    type: "joker",
+    labelShort: "Joker",
+    icon: "🎁",
+    color: SEGMENT_TYPE_META.joker.color,
+  },
+  {
+    id: 17,
+    type: "culsec",
+    labelShort: "Cul Sec",
+    icon: "💀",
+    color: SEGMENT_TYPE_META.culsec.color,
+  },
+];
+
+export const RELANCE_SEGMENT: SegmentDef = {
+  id: 18,
+  type: "relance",
+  labelShort: "Relance",
+  icon: "🔁",
+  color: SEGMENT_TYPE_META.relance.color,
+};
+
+// Insert relance randomly in the array - ONLY called once during build
+function insertRelance(): SegmentDef[] {
   const segments = [...CLASSIC_SEGMENTS];
   const randomIndex = Math.floor(Math.random() * segments.length);
   segments.splice(randomIndex, 0, RELANCE_SEGMENT);
   return segments;
-};
+}
 
-export const SEGMENTS_WITH_RELANCE = insertRelance();
+// Generate segments with relance
+export function generateSegments(): SegmentDef[] {
+  return insertRelance();
+}
 
 // Lists of random content for each type
 export const DEFIS = [

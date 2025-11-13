@@ -1,15 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RouletteSegment } from "@/data/roulette_classic.config";
+import { SegmentDef } from "@/data/roulette_classic.config";
 
 type WheelProps = {
-  segments: RouletteSegment[];
+  segments: SegmentDef[];
   rotation: number;
   isSpinning: boolean;
+  selectedSegmentId: number | null;
 };
 
-export default function Wheel({ segments, rotation, isSpinning }: WheelProps) {
+export default function Wheel({
+  segments,
+  rotation,
+  isSpinning,
+  selectedSegmentId,
+}: WheelProps) {
   const totalSegments = segments.length;
   const anglePerSegment = 360 / totalSegments;
 
@@ -60,11 +66,19 @@ export default function Wheel({ segments, rotation, isSpinning }: WheelProps) {
                 `Z`,
               ].join(" ");
 
-              // Calculate text position (middle of the segment)
+              // Calculate icon and text positions (towards outer edge)
               const midAngle = startAngle + anglePerSegment / 2;
               const midRad = (midAngle * Math.PI) / 180;
-              const textX = 100 + 60 * Math.cos(midRad);
-              const textY = 100 + 60 * Math.sin(midRad);
+
+              // Icon position (outer)
+              const iconX = 100 + 70 * Math.cos(midRad);
+              const iconY = 100 + 70 * Math.sin(midRad);
+
+              // Text position (inner, below icon)
+              const textX = 100 + 55 * Math.cos(midRad);
+              const textY = 100 + 55 * Math.sin(midRad);
+
+              const isSelected = !isSpinning && segment.id === selectedSegmentId;
 
               return (
                 <g key={segment.id}>
@@ -72,26 +86,49 @@ export default function Wheel({ segments, rotation, isSpinning }: WheelProps) {
                   <path
                     d={pathData}
                     fill={segment.color}
-                    stroke="rgba(255, 255, 255, 0.2)"
-                    strokeWidth="0.5"
+                    stroke={
+                      isSelected
+                        ? "rgba(255, 255, 255, 0.8)"
+                        : "rgba(255, 255, 255, 0.2)"
+                    }
+                    strokeWidth={isSelected ? "2" : "0.5"}
+                    opacity={isSelected ? 1 : 0.95}
+                    filter={
+                      isSelected
+                        ? `drop-shadow(0 0 8px ${segment.color})`
+                        : undefined
+                    }
                   />
 
-                  {/* Text label */}
+                  {/* Icon (emoji) */}
+                  <text
+                    x={iconX}
+                    y={iconY}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="16"
+                    transform={`rotate(${midAngle + 90}, ${iconX}, ${iconY})`}
+                    className="pointer-events-none select-none"
+                  >
+                    {segment.icon}
+                  </text>
+
+                  {/* Short label */}
                   <text
                     x={textX}
                     y={textY}
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fill="white"
-                    fontSize={segment.type === "culsec" ? "8" : "7"}
-                    fontWeight={segment.type === "culsec" ? "bold" : "600"}
+                    fontSize="6"
+                    fontWeight="600"
                     transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
                     className="pointer-events-none select-none"
                     style={{
                       textShadow: "0 1px 3px rgba(0, 0, 0, 0.8)",
                     }}
                   >
-                    {segment.label}
+                    {segment.labelShort}
                   </text>
                 </g>
               );
