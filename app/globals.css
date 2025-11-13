@@ -1,3 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-blob: blob 7s infinite;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
 :root {
   color-scheme: dark;
   --bg-start: #020617;
@@ -484,4 +505,13 @@ button {
   border: 1px solid rgba(148, 163, 184, 0.7);
   background: rgba(15, 23, 42, 0.95);
   font-size: 0.8rem;
+}
+
+/* Custom animation delays for blob */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
