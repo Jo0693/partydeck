@@ -16,8 +16,16 @@ const games = [
     href: "/never-have-i-ever",
     title: "Never Have I Ever",
     desc: "Classique « Je n'ai jamais » en version mobile.",
-    tag: "Nouveau",
+    tag: "Disponible",
     icon: "🙋‍♂️",
+    active: true,
+  },
+  {
+    href: "/roulette-shot",
+    title: "Roulette Shot",
+    desc: "Lance la roue et accepte ton destin.",
+    tag: "Nouveau",
+    icon: "🎡",
     active: true,
   },
   {
