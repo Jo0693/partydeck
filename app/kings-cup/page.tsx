@@ -36,7 +36,7 @@ export default function KingsPage() {
   const conf = cfg as unknown as Config;
   const [last, setLast] = useState<null | { rank: string; suit: string; rule: Rule }>(null);
   const [history, setHistory] = useState<{ rank: string; suit: string }[]>([]);
-  const { players, currentIndex, nextTurn } = usePartyStore();
+  const { players, currentIndex, nextTurn, alliances } = usePartyStore();
 
   // États pour la gestion du deck
   const [deckCount, setDeckCount] = useState(1);
@@ -46,6 +46,10 @@ export default function KingsPage() {
 
   // État pour capturer le joueur qui a tiré la carte affichée
   const [lastDrawer, setLastDrawer] = useState<Player | null>(null);
+
+  // États pour le modal "Pote de soirée"
+  const [isPoteModalOpen, setIsPoteModalOpen] = useState(false);
+  const [poteCandidateId, setPoteCandidateId] = useState<string | null>(null);
 
   const activePlayer = players.length ? players[currentIndex % players.length] : null;
 
@@ -62,10 +66,11 @@ export default function KingsPage() {
     setGameStarted(false);
     setLastDrawer(null);
 
-    // Réinitialiser le tour des joueurs
+    // Réinitialiser le tour des joueurs et les alliances
     try {
       const store = usePartyStore.getState();
       if (store.resetTurn) store.resetTurn();
+      if (store.resetAlliances) store.resetAlliances();
     } catch {}
   }
 
@@ -99,6 +104,12 @@ export default function KingsPage() {
 
     // Passer au joueur suivant
     if (players.length > 0) nextTurn();
+
+    // Si c'est un Roi, ouvrir le modal pour choisir un pote de soirée
+    if (next.rank === "K" && currentPlayer && players.length > 1) {
+      setPoteCandidateId(null);
+      setIsPoteModalOpen(true);
+    }
 
     if (typeof window !== "undefined" && "vibrate" in navigator) {
       (navigator as any).vibrate?.(25);
@@ -305,8 +316,138 @@ export default function KingsPage() {
             <Sub>Nom, sexe, âge — pour savoir à qui c'est le tour.</Sub>
           </div>
           <PlayerSetup />
+
+          {/* Section alliances */}
+          {alliances.length > 0 && (
+            <div className="mt-4 border-t border-white/5 pt-3 text-xs text-slate-300">
+              <div className="mb-1 flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                <span>🍻 Potes de soirée</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                {alliances.map((group) => {
+                  const members = group.memberIds
+                    .map((id) => players.find((p) => p.id === id))
+                    .filter(Boolean) as Player[];
+
+                  if (members.length < 2) return null;
+
+                  return (
+                    <div
+                      key={group.id}
+                      className="inline-flex flex-wrap items-center gap-1 rounded-full border border-slate-600/70 bg-slate-900/70 px-2 py-1"
+                    >
+                      <span className="text-[11px] text-slate-400">Team :</span>
+                      {members.map((m) => (
+                        <span
+                          key={m.id}
+                          className="rounded-full bg-slate-800/80 px-2 py-0.5 text-[11px] text-slate-100"
+                        >
+                          {m.name}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </Card>
       </div>
+
+      {/* Modal Pote de soirée */}
+      <PoteDeSoireeModal
+        isOpen={isPoteModalOpen}
+        onClose={() => setIsPoteModalOpen(false)}
+        players={players}
+        currentPlayerId={lastDrawer?.id ?? activePlayer?.id ?? ""}
+        selectedId={poteCandidateId}
+        setSelectedId={setPoteCandidateId}
+        onConfirm={() => {
+          if (!poteCandidateId) return;
+          const store = usePartyStore.getState();
+          const baseId = lastDrawer?.id ?? activePlayer?.id;
+          if (!baseId) return;
+
+          store.addAlliance(baseId, poteCandidateId);
+          setIsPoteModalOpen(false);
+        }}
+      />
     </FadeIn>
+  );
+}
+
+// Composant Modal pour choisir son pote de soirée
+function PoteDeSoireeModal({
+  isOpen,
+  onClose,
+  players,
+  currentPlayerId,
+  onConfirm,
+  selectedId,
+  setSelectedId,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  players: Player[];
+  currentPlayerId: string;
+  onConfirm: () => void;
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
+}) {
+  if (!isOpen) return null;
+
+  const poteOptions = players.filter((p) => p.id !== currentPlayerId);
+
+  if (poteOptions.length === 0) {
+    onClose();
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900/90 p-5 shadow-2xl">
+        <h2 className="mb-1 text-lg font-semibold text-slate-50">
+          Tu as tiré un Roi 👑
+        </h2>
+        <p className="mb-4 text-sm text-slate-300">
+          Choisis ton pote de soirée. Chaque fois que l'un de vous boit, l'autre boit aussi.
+        </p>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {poteOptions.map((p) => {
+            const isActive = selectedId === p.id;
+            return (
+              <button
+                key={p.id}
+                onClick={() => setSelectedId(isActive ? null : p.id)}
+                className={`rounded-full border px-3 py-1 text-sm transition ${
+                  isActive
+                    ? "border-fuchsia-400 bg-fuchsia-500/20 text-fuchsia-100"
+                    : "border-slate-600 bg-slate-800/80 text-slate-200 hover:border-slate-400"
+                }`}
+              >
+                {p.name}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={onClose}
+            className="text-sm text-slate-400 hover:text-slate-200"
+          >
+            Plus tard
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={!selectedId}
+            className="rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-4 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Valider le pote
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
