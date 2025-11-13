@@ -1,0 +1,70 @@
+{
+  "variant": "kings_custom",
+  "rule_map": {
+    "A": {
+      "label": "Distribue 1 gorgée",
+      "action": { "distribute": 1 },
+      "hint": "Tu distribues 1 gorgée à quelqu'un."
+    },
+    "2": {
+      "label": "Distribue 2 gorgées",
+      "action": { "distribute": 2 },
+      "hint": "Tu distribues 2 gorgées comme tu veux (une personne ou deux)."
+    },
+    "3": {
+      "label": "Distribue 3 gorgées",
+      "action": { "distribute": 3 },
+      "hint": "Tu distribues 3 gorgées comme tu veux."
+    },
+    "4": {
+      "label": "Distribue 4 gorgées",
+      "action": { "distribute": 4 },
+      "hint": "Tu distribues 4 gorgées comme tu veux."
+    },
+    "5": {
+      "label": "Distribue 5 gorgées",
+      "action": { "distribute": 5 },
+      "hint": "Tu distribues 5 gorgées comme tu veux."
+    },
+    "6": {
+      "label": "Distribue 6 gorgées",
+      "action": { "distribute": 6 },
+      "hint": "Tu distribues 6 gorgées comme tu veux."
+    },
+    "7": {
+      "label": "Invente une règle",
+      "action": { "create_rule": true },
+      "hint": "Tu inventes une règle pour la soirée."
+    },
+    "8": {
+      "label": "Distribue un cul sec",
+      "action": { "cul_sec": true },
+      "hint": "Tu choisis quelqu'un qui doit faire cul sec."
+    },
+    "9": {
+      "label": "Familles",
+      "action": { "familles": true },
+      "hint": "Chaque joueur doit dire un mot de la même famille (thème). Celui qui bloque ou se répète boit."
+    },
+    "10": {
+      "label": "Tout le monde boit",
+      "action": { "everyone_drinks": true },
+      "hint": "Tout le monde boit."
+    },
+    "J": {
+      "label": "Les hommes boivent",
+      "action": { "men_drink": true },
+      "hint": "Tous les hommes boivent."
+    },
+    "Q": {
+      "label": "Les femmes boivent",
+      "action": { "women_drink": true },
+      "hint": "Toutes les femmes boivent."
+    },
+    "K": {
+      "label": "Pote de soirée",
+      "action": { "party_buddy": true },
+      "hint": "Tu le donnes à un autre joueur. Si tu bois, il boit, et inversement. Les 4 rois peuvent se cumuler pour faire une grande équipe."
+    }
+  }
+}
