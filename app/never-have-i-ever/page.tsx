@@ -16,6 +16,8 @@ type NhiCategoryId =
   | "online"
   | "couple";
 
+type DuoModeId = "duo_soft" | "duo_spicy" | "duo_fun" | "duo_honest";
+
 const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
   basic: [
     "Je n'ai jamais voyagé seul(e) à l'étranger.",
@@ -75,6 +77,11 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais embrassé quelqu'un dont je ne connaissais pas le nom.",
     "Je n'ai jamais dragué quelqu'un en utilisant une phrase d'accroche ridicule.",
     "Je n'ai jamais eu un crush pour quelqu'un beaucoup plus jeune ou âgé que moi.",
+    "Je n'ai jamais simulé de l'intérêt pour quelqu'un juste pour ne pas le/la blesser.",
+    "Je n'ai jamais embrassé quelqu'un que je ne trouvais pas vraiment attirant(e).",
+    "Je n'ai jamais eu un rencard avec quelqu'un que j'avais rencontré en ligne sans le dire à personne.",
+    "Je n'ai jamais eu un moment gênant lors d'un premier baiser.",
+    "Je n'ai jamais donné un faux numéro pour me débarrasser de quelqu'un.",
   ],
   hot: [
     "Je n'ai jamais eu une aventure d'un soir dont je ne me souviens pas vraiment.",
@@ -99,6 +106,14 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais eu une relation physique avec un(e) ex après la rupture.",
     "Je n'ai jamais fait quelque chose d'intime dans un lieu complètement interdit.",
     "Je n'ai jamais eu un plan cul régulier pendant des mois.",
+    "Je n'ai jamais été dans une situation compromettante avec quelqu'un d'inattendu.",
+    "Je n'ai jamais eu une attirance physique pour quelqu'un que je détestais.",
+    "Je n'ai jamais fantasmé sur quelqu'un pendant un moment intime avec quelqu'un d'autre.",
+    "Je n'ai jamais eu une expérience qui a complètement changé ma vision de la sexualité.",
+    "Je n'ai jamais eu une relation purement basée sur l'attirance physique pendant plus d'un an.",
+    "Je n'ai jamais essayé quelque chose que j'avais vu dans un film pour adultes.",
+    "Je n'ai jamais eu une aventure avec quelqu'un que je n'aurais jamais imaginé.",
+    "Je n'ai jamais menti sur mon nombre de partenaires.",
   ],
   hardcore: [
     "Je n'ai jamais fait un truc vraiment dangereux pour épater quelqu'un.",
@@ -124,6 +139,13 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais coupé les ponts avec ma famille pendant longtemps.",
     "Je n'ai jamais eu un secret si lourd que ça m'empêche de dormir.",
     "Je n'ai jamais saboté volontairement la vie de quelqu'un.",
+    "Je n'ai jamais eu des pensées suicidaires.",
+    "Je n'ai jamais été dans une situation où j'ai dû choisir entre deux personnes que j'aimais.",
+    "Je n'ai jamais fait quelque chose que je ne pourrai jamais pardonner à moi-même.",
+    "Je n'ai jamais eu une dépendance émotionnelle toxique à quelqu'un.",
+    "Je n'ai jamais été dans une relation vraiment abusive.",
+    "Je n'ai jamais fait quelque chose de terrible par vengeance.",
+    "Je n'ai jamais eu une période sombre où je ne me reconnaissais plus.",
   ],
   gross: [
     "Je n'ai jamais vomi en public à cause de l'alcool.",
@@ -148,6 +170,14 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais bu directement à une bouteille/carton de lait dans le frigo.",
     "Je n'ai jamais eu un rendez-vous alors que j'avais une hygiène douteuse.",
     "Je n'ai jamais mangé avec les mains un plat qui nécessitait des couverts.",
+    "Je n'ai jamais eu un problème digestif embarrassant en public.",
+    "Je n'ai jamais oublié de me laver les mains après être allé(e) aux toilettes.",
+    "Je n'ai jamais utilisé des couverts tombés par terre sans les laver.",
+    "Je n'ai jamais eu des crottes de nez en public sans m'en rendre compte.",
+    "Je n'ai jamais porté le même sous-vêtement plusieurs jours de suite.",
+    "Je n'ai jamais mangé quelque chose directement sorti d'une poubelle propre.",
+    "Je n'ai jamais léché mes doigts sales en public.",
+    "Je n'ai jamais craché par terre en public.",
   ],
   illicit: [
     "Je n'ai jamais conduit sans permis.",
@@ -172,6 +202,14 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais menti aux autorités pour éviter une amende.",
     "Je n'ai jamais acheté ou vendu quelque chose sur le marché noir.",
     "Je n'ai jamais falsifié une signature ou un document.",
+    "Je n'ai jamais utilisé les informations de quelqu'un d'autre sans permission.",
+    "Je n'ai jamais participé à une activité illégale en groupe.",
+    "Je n'ai jamais aidé quelqu'un à enfreindre la loi.",
+    "Je n'ai jamais caché quelque chose d'illégal pour quelqu'un.",
+    "Je n'ai jamais menti sur mon identité pour accéder à quelque chose.",
+    "Je n'ai jamais utilisé un faux diplôme ou certificat.",
+    "Je n'ai jamais participé à une manifestation qui est devenue violente.",
+    "Je n'ai jamais détourné des règles de manière vraiment limite.",
   ],
   travel: [
     "Je n'ai jamais raté mon vol à cause d'une erreur de ma part.",
@@ -199,6 +237,11 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais voyagé en train de nuit.",
     "Je n'ai jamais fait un voyage uniquement pour la nourriture locale.",
     "Je n'ai jamais eu une urgence médicale en voyage à l'étranger.",
+    "Je n'ai jamais voyagé avec un budget de moins de 10€ par jour.",
+    "Je n'ai jamais fait du couchsurfing chez des inconnus.",
+    "Je n'ai jamais raté mon train/bus et dû improviser complètement.",
+    "Je n'ai jamais voyagé dans un pays sans assurance voyage.",
+    "Je n'ai jamais fait un voyage en sac à dos pendant plusieurs semaines.",
   ],
   work_school: [
     "Je n'ai jamais séché un cours ou une journée de travail sans raison.",
@@ -223,6 +266,14 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais démissionné ou abandonné quelque chose sans préavis.",
     "Je n'ai jamais passé plus de temps sur mon téléphone que sur mon travail.",
     "Je n'ai jamais inventé une excuse complètement fausse pour justifier un retard.",
+    "Je n'ai jamais fait semblant de comprendre quelque chose que je ne comprenais pas du tout.",
+    "Je n'ai jamais saboté le travail de quelqu'un par jalousie.",
+    "Je n'ai jamais eu une altercation verbale violente avec un supérieur.",
+    "Je n'ai jamais utilisé une excuse familiale fausse pour m'absenter.",
+    "Je n'ai jamais passé un entretien sans vraiment vouloir le poste.",
+    "Je n'ai jamais menti sur mes horaires de disponibilité.",
+    "Je n'ai jamais fait semblant de travailler alors que je ne faisais rien.",
+    "Je n'ai jamais critiqué mon boss/prof dans son dos de manière vraiment méchante.",
   ],
   online: [
     "Je n'ai jamais stalké mon ex sur les réseaux sociaux.",
@@ -249,6 +300,12 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais regretté un commentaire ou post publié sous le coup de l'émotion.",
     "Je n'ai jamais utilisé une app de rencontre juste pour le divertissement.",
     "Je n'ai jamais archivé ou masqué des posts pour que certaines personnes ne les voient pas.",
+    "Je n'ai jamais créé un compte finsta (faux Instagram) secret.",
+    "Je n'ai jamais vérifié combien de fois quelqu'un a vu ma story.",
+    "Je n'ai jamais unfollowé quelqu'un par rancune.",
+    "Je n'ai jamais menti sur ma localisation sur les réseaux sociaux.",
+    "Je n'ai jamais posté une photo retouchée en prétendant qu'elle était naturelle.",
+    "Je n'ai jamais eu une obsession malsaine pour les likes et commentaires.",
   ],
   couple: [
     "Je n'ai jamais dit 'je t'aime' sans le penser vraiment.",
@@ -275,6 +332,143 @@ const PROMPTS_BY_CATEGORY: Record<NhiCategoryId, string[]> = {
     "Je n'ai jamais remis en question toute ma relation à cause d'un détail.",
     "Je n'ai jamais été en couple juste pour ne pas être seul(e).",
     "Je n'ai jamais caché une relation à mes proches.",
+    "Je n'ai jamais eu un red flag majeur dès le début mais continué quand même.",
+    "Je n'ai jamais menti sur mon passé amoureux.",
+    "Je n'ai jamais eu des sentiments pour quelqu'un d'autre pendant ma relation.",
+    "Je n'ai jamais rompu avec quelqu'un puis regretté immédiatement.",
+    "Je n'ai jamais fait semblant d'être d'accord avec mon/ma partenaire pour éviter un conflit.",
+    "Je n'ai jamais eu une relation toxique dont je n'arrivais pas à sortir.",
+  ],
+};
+
+const PROMPTS_DUO: Record<DuoModeId, string[]> = {
+  duo_soft: [
+    "Je n'ai jamais eu un coup de foudre au premier regard.",
+    "Je n'ai jamais cru aux âmes sœurs.",
+    "Je n'ai jamais pleuré en regardant un film romantique.",
+    "Je n'ai jamais écrit une lettre d'amour.",
+    "Je n'ai jamais gardé un objet qui me rappelle quelqu'un de spécial.",
+    "Je n'ai jamais cru à l'amour éternel.",
+    "Je n'ai jamais eu des papillons dans le ventre en pensant à quelqu'un.",
+    "Je n'ai jamais rêvé de ma vie future avec quelqu'un.",
+    "Je n'ai jamais eu peur de perdre quelqu'un de vraiment important.",
+    "Je n'ai jamais dit à quelqu'un qu'il/elle était important(e) pour moi.",
+    "Je n'ai jamais ressenti une connexion instantanée avec quelqu'un.",
+    "Je n'ai jamais eu l'impression qu'on se connaissait depuis toujours.",
+    "Je n'ai jamais voulu protéger quelqu'un de tout mon cœur.",
+    "Je n'ai jamais souri en repensant à un souvenir avec quelqu'un.",
+    "Je n'ai jamais eu envie de passer tout mon temps avec une personne.",
+    "Je n'ai jamais ressenti une affection profonde et sincère.",
+    "Je n'ai jamais eu une conversation qui a duré toute la nuit.",
+    "Je n'ai jamais partagé mes rêves les plus secrets avec quelqu'un.",
+    "Je n'ai jamais ressenti un calme profond en présence de quelqu'un.",
+    "Je n'ai jamais eu l'impression d'être vraiment compris(e) par quelqu'un.",
+    "Je n'ai jamais ressenti une tendresse immense pour quelqu'un.",
+    "Je n'ai jamais voulu faire plaisir à quelqu'un juste pour voir son sourire.",
+    "Je n'ai jamais eu l'impression que le temps s'arrêtait avec quelqu'un.",
+    "Je n'ai jamais ressenti une douceur inexplicable en pensant à quelqu'un.",
+    "Je n'ai jamais voulu créer des souvenirs précieux avec quelqu'un.",
+    "Je n'ai jamais eu un moment magique que je n'oublierai jamais.",
+    "Je n'ai jamais ressenti une complicité immédiate avec quelqu'un.",
+    "Je n'ai jamais voulu connaître tous les détails de la vie de quelqu'un.",
+    "Je n'ai jamais eu l'impression d'avoir trouvé quelqu'un de vraiment spécial.",
+    "Je n'ai jamais ressenti une émotion pure et sincère pour quelqu'un.",
+  ],
+  duo_spicy: [
+    "Je n'ai jamais ressenti une tension sexuelle palpable avec quelqu'un.",
+    "Je n'ai jamais eu envie d'embrasser quelqu'un dès le premier regard.",
+    "Je n'ai jamais flirté ouvertement avec quelqu'un qui me plaisait vraiment.",
+    "Je n'ai jamais eu un moment de séduction intense et évident.",
+    "Je n'ai jamais ressenti une attirance physique irrésistible.",
+    "Je n'ai jamais voulu que quelqu'un me touche immédiatement.",
+    "Je n'ai jamais eu un regard qui en disait long avec quelqu'un.",
+    "Je n'ai jamais ressenti des frissons en pensant à quelqu'un.",
+    "Je n'ai jamais voulu rapprocher mon corps de celui de quelqu'un.",
+    "Je n'ai jamais eu une conversation à double sens vraiment claire.",
+    "Je n'ai jamais ressenti une chimie évidente et électrique.",
+    "Je n'ai jamais voulu être seul(e) dans une pièce avec quelqu'un.",
+    "Je n'ai jamais eu des pensées suggestives sur quelqu'un en sa présence.",
+    "Je n'ai jamais ressenti une envie pressante de toucher quelqu'un.",
+    "Je n'ai jamais voulu séduire quelqu'un de manière évidente.",
+    "Je n'ai jamais eu un contact visuel prolongé chargé de désir.",
+    "Je n'ai jamais ressenti mon cœur battre plus vite face à quelqu'un.",
+    "Je n'ai jamais voulu que quelqu'un devine mes pensées coquines.",
+    "Je n'ai jamais eu un moment où l'air devenait lourd de désir.",
+    "Je n'ai jamais ressenti une excitation rien qu'en pensant à quelqu'un.",
+    "Je n'ai jamais voulu provoquer quelqu'un de manière subtile.",
+    "Je n'ai jamais eu une conversation qui frôlait la limite de l'explicite.",
+    "Je n'ai jamais ressenti une attraction magnétique vers quelqu'un.",
+    "Je n'ai jamais voulu que quelqu'un fasse le premier pas.",
+    "Je n'ai jamais eu envie de franchir une limite avec quelqu'un.",
+    "Je n'ai jamais ressenti une alchimie physique immédiate.",
+    "Je n'ai jamais voulu qu'un simple regard se transforme en plus.",
+    "Je n'ai jamais eu une tension non résolue qui me rendait fou/folle.",
+    "Je n'ai jamais ressenti un désir brûlant pour quelqu'un.",
+    "Je n'ai jamais voulu qu'une soirée se termine autrement.",
+  ],
+  duo_fun: [
+    "Je n'ai jamais eu un moment super gênant avec quelqu'un que j'aimais bien.",
+    "Je n'ai jamais ri jusqu'aux larmes avec quelqu'un.",
+    "Je n'ai jamais fait une blague nulle pour faire rire quelqu'un.",
+    "Je n'ai jamais eu un fou rire incontrôlable au mauvais moment.",
+    "Je n'ai jamais fait semblant de trouver une blague drôle.",
+    "Je n'ai jamais eu un surnom ridicule donné par quelqu'un.",
+    "Je n'ai jamais taquiné quelqu'un jusqu'à ce qu'il/elle devienne rouge.",
+    "Je n'ai jamais eu un moment awkward lors d'un premier rencard.",
+    "Je n'ai jamais fait une grimace ridicule pour faire sourire quelqu'un.",
+    "Je n'ai jamais eu un incident embarrassant devant quelqu'un que j'aimais bien.",
+    "Je n'ai jamais raté une tentative de séduction de manière comique.",
+    "Je n'ai jamais eu un moment où je ne savais absolument pas quoi dire.",
+    "Je n'ai jamais fait une gaffe monumentale devant quelqu'un.",
+    "Je n'ai jamais eu un silence gênant interminable.",
+    "Je n'ai jamais fait tomber quelque chose de manière embarrassante.",
+    "Je n'ai jamais eu un mot qui est sorti complètement de travers.",
+    "Je n'ai jamais raté un high five de manière gênante.",
+    "Je n'ai jamais eu un moment de confusion totale.",
+    "Je n'ai jamais fait une blague qui n'a fait rire personne.",
+    "Je n'ai jamais eu un problème technique embarrassant (braguette, etc).",
+    "Je n'ai jamais trébuché ou failli tomber devant quelqu'un.",
+    "Je n'ai jamais eu de la nourriture coincée dans les dents sans m'en rendre compte.",
+    "Je n'ai jamais fait une imitation ridicule pour amuser quelqu'un.",
+    "Je n'ai jamais eu un malentendu vraiment drôle.",
+    "Je n'ai jamais raté complètement un compliment.",
+    "Je n'ai jamais eu un moment de second-hand embarrassment.",
+    "Je n'ai jamais fait une tentative de flirt vraiment maladroite.",
+    "Je n'ai jamais eu un blanc total au milieu d'une conversation.",
+    "Je n'ai jamais fait rire quelqu'un sans faire exprès.",
+    "Je n'ai jamais eu un moment cringe que je repense encore.",
+  ],
+  duo_honest: [
+    "Je n'ai jamais eu peur de montrer mes vraies émotions à quelqu'un.",
+    "Je n'ai jamais partagé une peur profonde avec quelqu'un.",
+    "Je n'ai jamais pleuré devant quelqu'un que je connaissais à peine.",
+    "Je n'ai jamais avoué quelque chose que je n'avais jamais dit à personne.",
+    "Je n'ai jamais ressenti une vulnérabilité totale avec quelqu'un.",
+    "Je n'ai jamais partagé mes insécurités les plus profondes.",
+    "Je n'ai jamais eu une conversation qui m'a fait remettre en question ma vie.",
+    "Je n'ai jamais admis mes défauts les plus honteux à quelqu'un.",
+    "Je n'ai jamais parlé de mes regrets les plus lourds.",
+    "Je n'ai jamais eu peur d'être jugé(e) en me confiant.",
+    "Je n'ai jamais partagé un secret que je gardais depuis des années.",
+    "Je n'ai jamais ressenti un soulagement après m'être confié(e).",
+    "Je n'ai jamais admis que j'avais tort dans une situation importante.",
+    "Je n'ai jamais parlé de mes échecs les plus douloureux.",
+    "Je n'ai jamais partagé mes rêves les plus fous sans avoir peur du ridicule.",
+    "Je n'ai jamais eu une conversation honnête qui a tout changé.",
+    "Je n'ai jamais admis mes doutes sur moi-même.",
+    "Je n'ai jamais partagé ce qui me fait vraiment peur dans la vie.",
+    "Je n'ai jamais avoué quelque chose que j'avais caché par honte.",
+    "Je n'ai jamais ressenti une libération en disant ma vérité.",
+    "Je n'ai jamais admis mes faiblesses les plus profondes.",
+    "Je n'ai jamais partagé ce qui me rend vraiment triste.",
+    "Je n'ai jamais eu peur qu'on me rejette après m'être ouvert(e).",
+    "Je n'ai jamais avoué ce que je ressentais vraiment pour quelqu'un.",
+    "Je n'ai jamais partagé mes pensées les plus sombres.",
+    "Je n'ai jamais ressenti un poids se lever après une confession.",
+    "Je n'ai jamais admis que j'avais besoin d'aide.",
+    "Je n'ai jamais partagé mes blessures émotionnelles les plus profondes.",
+    "Je n'ai jamais eu une conversation qui m'a fait pleurer de soulagement.",
+    "Je n'ai jamais ressenti une connexion profonde après m'être confié(e).",
   ],
 };
 
@@ -289,6 +483,13 @@ const ALL_CATEGORIES: NhiCategoryId[] = [
   "work_school",
   "online",
   "couple",
+];
+
+const ALL_DUO_MODES: DuoModeId[] = [
+  "duo_soft",
+  "duo_spicy",
+  "duo_fun",
+  "duo_honest",
 ];
 
 const CATEGORY_META: {
@@ -359,28 +560,72 @@ const CATEGORY_META: {
   },
 ];
 
+const DUO_META: {
+  id: DuoModeId;
+  label: string;
+  accent: string;
+  shadow: string;
+}[] = [
+  {
+    id: "duo_soft",
+    label: "Duo Soft 💫",
+    accent: "from-blue-400 to-pink-400",
+    shadow: "shadow-blue-400/40",
+  },
+  {
+    id: "duo_spicy",
+    label: "Duo Spicy 🔥",
+    accent: "from-rose-500 to-fuchsia-500",
+    shadow: "shadow-rose-500/40",
+  },
+  {
+    id: "duo_fun",
+    label: "Duo Fun 😁",
+    accent: "from-yellow-400 to-orange-400",
+    shadow: "shadow-yellow-400/40",
+  },
+  {
+    id: "duo_honest",
+    label: "Duo Honest 🫣",
+    accent: "from-indigo-500 to-violet-500",
+    shadow: "shadow-indigo-500/40",
+  },
+];
+
 type DeckCard =
   | { type: "prompt"; category: NhiCategoryId; text: string }
+  | { type: "duo_prompt"; duoType: DuoModeId; text: string }
   | { type: "blank"; id: string };
 
 function buildDeck(
+  duoMode: boolean,
   categories: NhiCategoryId[],
+  duoModes: DuoModeId[],
   includeBlanks: boolean
 ): DeckCard[] {
   const cards: DeckCard[] = [];
 
-  categories.forEach((cat) => {
-    const prompts = PROMPTS_BY_CATEGORY[cat] ?? [];
-    prompts.forEach((text) => cards.push({ type: "prompt", category: cat, text }));
-  });
+  if (duoMode) {
+    // Duo mode: use only duo prompts
+    duoModes.forEach((duoType) => {
+      const prompts = PROMPTS_DUO[duoType] ?? [];
+      prompts.forEach((text) => cards.push({ type: "duo_prompt", duoType, text }));
+    });
+  } else {
+    // Classic mode: use categories + optional blanks
+    categories.forEach((cat) => {
+      const prompts = PROMPTS_BY_CATEGORY[cat] ?? [];
+      prompts.forEach((text) => cards.push({ type: "prompt", category: cat, text }));
+    });
 
-  if (includeBlanks) {
-    const BLANK_COUNT = 8;
-    for (let i = 0; i < BLANK_COUNT; i++) {
-      cards.push({
-        type: "blank",
-        id: `blank-${i}-${Math.random().toString(16).slice(2)}`,
-      });
+    if (includeBlanks) {
+      const BLANK_COUNT = 8;
+      for (let i = 0; i < BLANK_COUNT; i++) {
+        cards.push({
+          type: "blank",
+          id: `blank-${i}-${Math.random().toString(16).slice(2)}`,
+        });
+      }
     }
   }
 
@@ -414,29 +659,57 @@ function getCategoryAccent(category: NhiCategoryId | "custom") {
   }
 }
 
+function getDuoAccent(duoType: DuoModeId) {
+  switch (duoType) {
+    case "duo_soft":
+      return "from-blue-400/20 via-slate-900 to-pink-900/60 border-blue-400/50";
+    case "duo_spicy":
+      return "from-rose-500/20 via-slate-900 to-fuchsia-900/70 border-rose-400/50";
+    case "duo_fun":
+      return "from-yellow-400/20 via-slate-900 to-orange-900/60 border-yellow-400/50";
+    case "duo_honest":
+      return "from-indigo-500/20 via-slate-900 to-violet-900/70 border-indigo-400/50";
+  }
+}
+
 export default function NeverHaveIEverPage() {
+  // Duo mode state
+  const [duoMode, setDuoMode] = useState(false);
+  const [selectedDuoModes, setSelectedDuoModes] = useState<DuoModeId[]>([
+    "duo_soft",
+  ]);
+
+  // Classic mode state
   const [selectedCategories, setSelectedCategories] = useState<NhiCategoryId[]>([
     "basic",
   ]);
   const [includeCustomBlanks, setIncludeCustomBlanks] = useState(false);
+
+  // Deck state
   const [deck, setDeck] = useState<DeckCard[]>([]);
   const [cursor, setCursor] = useState(0);
   const [history, setHistory] = useState<
-    { text: string; category: NhiCategoryId | "custom" }[]
+    { text: string; category: NhiCategoryId | DuoModeId | "custom" }[]
   >([]);
 
+  // Blank modal state
   const [isBlankModalOpen, setIsBlankModalOpen] = useState(false);
   const [blankDraft, setBlankDraft] = useState("");
   const [overridePrompt, setOverridePrompt] = useState<string | null>(null);
 
-  // Rebuild deck when categories or blanks change
+  // Rebuild deck when duoMode, categories, duoModes, or blanks change
   useEffect(() => {
-    const newDeck = buildDeck(selectedCategories, includeCustomBlanks);
+    const newDeck = buildDeck(
+      duoMode,
+      selectedCategories,
+      selectedDuoModes,
+      includeCustomBlanks
+    );
     setDeck(newDeck);
     setCursor(0);
     setHistory([]);
     setOverridePrompt(null);
-  }, [selectedCategories, includeCustomBlanks]);
+  }, [duoMode, selectedCategories, selectedDuoModes, includeCustomBlanks]);
 
   // Open blank modal when hitting a blank card
   useEffect(() => {
@@ -445,69 +718,117 @@ export default function NeverHaveIEverPage() {
       setBlankDraft("");
       setIsBlankModalOpen(true);
     }
-  }, [deck, cursor, overridePrompt]);
+  }, [cursor, deck, overridePrompt]);
 
-  const currentCard = deck[cursor];
-  let currentPromptText: string | null = null;
-  let categoryForStyle: NhiCategoryId | "custom" = "custom";
-
-  if (currentCard) {
-    if (currentCard.type === "prompt") {
-      currentPromptText = currentCard.text;
-      categoryForStyle = currentCard.category;
-    } else if (currentCard.type === "blank") {
-      currentPromptText = overridePrompt;
-      categoryForStyle = "custom";
-    }
+  function handleToggleCategory(catId: NhiCategoryId) {
+    setSelectedCategories((prev) => {
+      if (prev.includes(catId)) {
+        const next = prev.filter((c) => c !== catId);
+        return next.length > 0 ? next : prev;
+      }
+      return [...prev, catId];
+    });
   }
 
-  function handleToggleCategory(id: NhiCategoryId) {
-    setSelectedCategories((prev) => {
-      if (prev.includes(id)) {
-        const next = prev.filter((c) => c !== id);
-        return next.length === 0 ? ["basic"] : next;
-      } else {
-        return [...prev, id];
+  function handleToggleDuoMode(duoId: DuoModeId) {
+    setSelectedDuoModes((prev) => {
+      if (prev.includes(duoId)) {
+        const next = prev.filter((d) => d !== duoId);
+        return next.length > 0 ? next : prev;
       }
+      return [...prev, duoId];
     });
   }
 
   function handleToggleAll() {
-    setSelectedCategories((prev) =>
-      prev.length === ALL_CATEGORIES.length ? ["basic"] : ALL_CATEGORIES
-    );
+    if (selectedCategories.length === ALL_CATEGORIES.length) {
+      setSelectedCategories(["basic"]);
+    } else {
+      setSelectedCategories([...ALL_CATEGORIES]);
+    }
+  }
+
+  function handleToggleAllDuo() {
+    if (selectedDuoModes.length === ALL_DUO_MODES.length) {
+      setSelectedDuoModes(["duo_soft"]);
+    } else {
+      setSelectedDuoModes([...ALL_DUO_MODES]);
+    }
+  }
+
+  function handleBlankConfirm() {
+    if (blankDraft.trim()) {
+      setOverridePrompt(blankDraft.trim());
+      setIsBlankModalOpen(false);
+    }
   }
 
   function nextPrompt() {
-    if (currentCard && currentPromptText) {
-      setHistory((prev) => {
-        const next = [{ text: currentPromptText, category: categoryForStyle }, ...prev];
-        return next.slice(0, 8);
-      });
+    const currentCard = deck[cursor];
+    let currentPromptText: string | null = null;
+    let categoryForHistory: NhiCategoryId | DuoModeId | "custom" = "custom";
+
+    if (currentCard?.type === "prompt") {
+      currentPromptText = currentCard.text;
+      categoryForHistory = currentCard.category;
+    } else if (currentCard?.type === "duo_prompt") {
+      currentPromptText = currentCard.text;
+      categoryForHistory = currentCard.duoType;
+    } else if (currentCard?.type === "blank" && overridePrompt) {
+      currentPromptText = overridePrompt;
+      categoryForHistory = "custom";
     }
 
-    if (cursor < deck.length - 1) {
-      setCursor((c) => c + 1);
-      setOverridePrompt(null);
+    if (currentPromptText) {
+      setHistory((prev) =>
+        [{ text: currentPromptText!, category: categoryForHistory }, ...prev].slice(
+          0,
+          8
+        )
+      );
+    }
+
+    setOverridePrompt(null);
+
+    if (cursor + 1 >= deck.length) {
+      resetDeck();
     } else {
-      // Deck terminé -> rebuild
-      const newDeck = buildDeck(selectedCategories, includeCustomBlanks);
-      setDeck(newDeck);
-      setCursor(0);
-      setHistory([]);
-      setOverridePrompt(null);
+      setCursor((c) => c + 1);
     }
   }
 
   function resetDeck() {
-    const newDeck = buildDeck(selectedCategories, includeCustomBlanks);
+    const newDeck = buildDeck(
+      duoMode,
+      selectedCategories,
+      selectedDuoModes,
+      includeCustomBlanks
+    );
     setDeck(newDeck);
     setCursor(0);
     setHistory([]);
     setOverridePrompt(null);
   }
 
-  const accentClasses = getCategoryAccent(categoryForStyle);
+  const currentCard = deck[cursor];
+  let currentPromptText: string | null = null;
+  let categoryForStyle: NhiCategoryId | DuoModeId | "custom" = "custom";
+
+  if (currentCard?.type === "prompt") {
+    currentPromptText = currentCard.text;
+    categoryForStyle = currentCard.category;
+  } else if (currentCard?.type === "duo_prompt") {
+    currentPromptText = currentCard.text;
+    categoryForStyle = currentCard.duoType;
+  } else if (currentCard?.type === "blank") {
+    currentPromptText = overridePrompt;
+    categoryForStyle = "custom";
+  }
+
+  const accentClasses =
+    categoryForStyle && categoryForStyle.startsWith("duo_")
+      ? getDuoAccent(categoryForStyle as DuoModeId)
+      : getCategoryAccent(categoryForStyle as NhiCategoryId | "custom");
 
   return (
     <FadeIn>
@@ -520,68 +841,138 @@ export default function NeverHaveIEverPage() {
       </div>
 
       <div className="px-4 md:px-0">
-        {/* Theme selector */}
-        <div className="mb-4 flex flex-wrap gap-2">
+        {/* Duo Mode Toggle */}
+        <div className="mb-4">
           <button
-            onClick={handleToggleAll}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
-              selectedCategories.length === ALL_CATEGORIES.length
-                ? "scale-[1.04] border-white/20 bg-fuchsia-500/30 text-fuchsia-100 shadow-lg shadow-fuchsia-500/40"
+            onClick={() => setDuoMode((v) => !v)}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 ease-out ${
+              duoMode
+                ? "scale-[1.05] border-white/20 bg-gradient-to-r from-blue-500 to-pink-500 text-white shadow-lg shadow-blue-500/40"
                 : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
             }`}
             style={
-              selectedCategories.length === ALL_CATEGORIES.length
+              duoMode
                 ? {
                     textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
                   }
                 : undefined
             }
           >
-            All mix 🎲
-          </button>
-
-          {CATEGORY_META.map((cat) => {
-            const active = selectedCategories.includes(cat.id);
-            return (
-              <button
-                key={cat.id}
-                onClick={() => handleToggleCategory(cat.id)}
-                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
-                  active
-                    ? `scale-[1.04] border-white/20 bg-gradient-to-r ${cat.accent} text-white shadow-lg ${cat.shadow}`
-                    : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
-                }`}
-                style={
-                  active
-                    ? {
-                        textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
-                      }
-                    : undefined
-                }
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-
-          <button
-            onClick={() => setIncludeCustomBlanks((v) => !v)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
-              includeCustomBlanks
-                ? "scale-[1.04] border-white/20 bg-emerald-500/30 text-emerald-100 shadow-lg shadow-emerald-500/40"
-                : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
-            }`}
-            style={
-              includeCustomBlanks
-                ? {
-                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
-                  }
-                : undefined
-            }
-          >
-            Free theme ✏️
+            Duo Mode 💙
           </button>
         </div>
+
+        {/* Classic Theme Selector */}
+        {!duoMode && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            <button
+              onClick={handleToggleAll}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
+                selectedCategories.length === ALL_CATEGORIES.length
+                  ? "scale-[1.04] border-white/20 bg-fuchsia-500/30 text-fuchsia-100 shadow-lg shadow-fuchsia-500/40"
+                  : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
+              }`}
+              style={
+                selectedCategories.length === ALL_CATEGORIES.length
+                  ? {
+                      textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                    }
+                  : undefined
+              }
+            >
+              All mix 🎲
+            </button>
+
+            {CATEGORY_META.map((cat) => {
+              const active = selectedCategories.includes(cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleToggleCategory(cat.id)}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
+                    active
+                      ? `scale-[1.04] border-white/20 bg-gradient-to-r ${cat.accent} text-white shadow-lg ${cat.shadow}`
+                      : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
+                  }`}
+                  style={
+                    active
+                      ? {
+                          textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                        }
+                      : undefined
+                  }
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => setIncludeCustomBlanks((v) => !v)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
+                includeCustomBlanks
+                  ? "scale-[1.04] border-white/20 bg-emerald-500/30 text-emerald-100 shadow-lg shadow-emerald-500/40"
+                  : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
+              }`}
+              style={
+                includeCustomBlanks
+                  ? {
+                      textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                    }
+                  : undefined
+              }
+            >
+              Free theme ✏️
+            </button>
+          </div>
+        )}
+
+        {/* Duo Theme Selector */}
+        {duoMode && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            <button
+              onClick={handleToggleAllDuo}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
+                selectedDuoModes.length === ALL_DUO_MODES.length
+                  ? "scale-[1.04] border-white/20 bg-fuchsia-500/30 text-fuchsia-100 shadow-lg shadow-fuchsia-500/40"
+                  : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
+              }`}
+              style={
+                selectedDuoModes.length === ALL_DUO_MODES.length
+                  ? {
+                      textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                    }
+                  : undefined
+              }
+            >
+              All Duo 💙
+            </button>
+
+            {DUO_META.map((duo) => {
+              const active = selectedDuoModes.includes(duo.id);
+              return (
+                <button
+                  key={duo.id}
+                  onClick={() => handleToggleDuoMode(duo.id)}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ease-out ${
+                    active
+                      ? `scale-[1.05] border-white/20 bg-gradient-to-r ${duo.accent} text-white shadow-lg ${duo.shadow}`
+                      : "border-slate-600 bg-slate-900/70 text-slate-200 hover:border-slate-300"
+                  }`}
+                  style={
+                    active
+                      ? {
+                          textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+                        }
+                      : undefined
+                  }
+                >
+                  {duo.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         <Card>
           <div className="text-center">
@@ -595,13 +986,15 @@ export default function NeverHaveIEverPage() {
             >
               <div className="mb-4 flex items-center justify-between text-xs text-slate-300">
                 <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] uppercase tracking-[0.18em]">
-                  PHRASE
+                  {duoMode ? "DUO 💙" : "PHRASE"}
                 </span>
                 <span className="rounded-full bg-black/30 px-2.5 py-1 text-[11px] text-slate-200">
                   {categoryForStyle === "custom"
                     ? "Free theme ✏️"
-                    : CATEGORY_META.find((c) => c.id === categoryForStyle)?.label ??
-                      ""}
+                    : categoryForStyle.startsWith("duo_")
+                      ? DUO_META.find((d) => d.id === categoryForStyle)?.label ?? ""
+                      : CATEGORY_META.find((c) => c.id === categoryForStyle)?.label ??
+                        ""}
                 </span>
               </div>
 
@@ -615,119 +1008,106 @@ export default function NeverHaveIEverPage() {
               </p>
             </motion.div>
 
-            <div className="flex flex-wrap justify-center gap-3">
+            {/* Actions */}
+            <div className="mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <button
                 onClick={nextPrompt}
                 disabled={!currentPromptText}
-                className="rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-pink-500/30 transition-all hover:shadow-pink-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full max-w-[220px] rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-pink-500/30 transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
               >
                 Nouvelle phrase
               </button>
               <button
                 onClick={resetDeck}
-                className="rounded-full border border-slate-600/70 bg-slate-900/60 px-4 py-2 text-xs text-slate-200 transition-all hover:border-slate-400"
+                className="text-sm text-slate-400 hover:text-slate-200"
               >
                 Remettre le deck à zéro
               </button>
             </div>
 
-            <div className="mt-6 text-xs text-slate-500">
+            {/* Progress */}
+            <p className="mb-4 text-xs text-slate-500">
               Phrase {cursor + 1} / {deck.length}
-            </div>
-          </div>
+            </p>
 
-          {history.length > 0 && (
-            <div className="mt-8 border-t border-white/5 pt-4">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                HISTORIQUE RÉCENT
-              </div>
-              <div className="flex flex-col gap-2">
-                {history.map((item, i) => (
-                  <div
-                    key={i}
-                    className="rounded-xl border border-slate-700/70 bg-slate-900/80 px-3 py-2"
-                  >
-                    <div className="mb-1 text-[10px] uppercase tracking-wide text-slate-500">
-                      {item.category === "custom"
+            {/* History */}
+            {history.length > 0 && (
+              <div className="mt-6 border-t border-slate-700/50 pt-4">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Historique
+                </h3>
+                <div className="space-y-2">
+                  {history.map((item, i) => {
+                    const catLabel =
+                      item.category === "custom"
                         ? "Free theme ✏️"
-                        : CATEGORY_META.find((c) => c.id === item.category)
-                            ?.label ?? ""}
-                    </div>
-                    <div className="text-xs text-slate-300">{item.text}</div>
-                  </div>
-                ))}
+                        : item.category.startsWith("duo_")
+                          ? DUO_META.find((d) => d.id === item.category)?.label +
+                            " 💙"
+                          : CATEGORY_META.find((c) => c.id === item.category)
+                              ?.label ?? "";
+                    return (
+                      <div
+                        key={i}
+                        className="rounded-lg bg-slate-800/50 px-3 py-2 text-left"
+                      >
+                        <p className="text-xs text-slate-300">{item.text}</p>
+                        <p className="mt-1 text-[10px] text-slate-500">
+                          {catLabel}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </Card>
       </div>
 
-      {/* Blank card modal */}
-      <BlankCardModal
-        isOpen={isBlankModalOpen}
-        onClose={() => {
-          setIsBlankModalOpen(false);
-        }}
-        value={blankDraft}
-        onChange={setBlankDraft}
-        onConfirm={() => {
-          const text = blankDraft.trim();
-          if (!text) return;
-          setOverridePrompt(text);
-          setIsBlankModalOpen(false);
-        }}
-      />
-    </FadeIn>
-  );
-}
-
-function BlankCardModal({
-  isOpen,
-  onClose,
-  value,
-  onChange,
-  onConfirm,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  value: string;
-  onChange: (v: string) => void;
-  onConfirm: () => void;
-}) {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950/95 p-5 shadow-2xl">
-        <h2 className="mb-1 text-lg font-semibold text-slate-50">
-          Carte blanche ✏️
-        </h2>
-        <p className="mb-3 text-sm text-slate-300">
-          Invente ton propre "Never have I ever". Si quelqu'un l'a déjà fait, il boit.
-        </p>
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          rows={3}
-          placeholder="Exemple : Je n'ai jamais..."
-          className="mb-3 w-full rounded-xl border border-slate-600/70 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-fuchsia-400 focus:outline-none focus:ring-1 focus:ring-fuchsia-400/60"
-        />
-        <div className="flex items-center justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="text-sm text-slate-400 hover:text-slate-200"
+      {/* Blank Card Modal */}
+      {isBlankModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
+          onClick={() => setIsBlankModalOpen(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative w-full max-w-md rounded-2xl border border-slate-600/70 bg-slate-900 p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
           >
-            Annuler
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={!value.trim()}
-            className="rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-4 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Valider
-          </button>
+            <h2 className="mb-2 text-lg font-semibold text-slate-100">
+              Free theme ✏️
+            </h2>
+            <p className="mb-4 text-sm text-slate-400">
+              Invente ton propre "Never have I ever". Si quelqu'un l'a déjà fait, il boit.
+            </p>
+            <textarea
+              value={blankDraft}
+              onChange={(e) => setBlankDraft(e.target.value)}
+              rows={3}
+              placeholder="Exemple : Je n'ai jamais..."
+              className="mb-3 w-full rounded-xl border border-slate-600/70 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-fuchsia-400 focus:outline-none focus:ring-1 focus:ring-fuchsia-400/60"
+            />
+            <div className="flex items-center justify-end gap-2">
+              <button
+                onClick={() => setIsBlankModalOpen(false)}
+                className="text-sm text-slate-400 hover:text-slate-200"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={handleBlankConfirm}
+                disabled={!blankDraft.trim()}
+                className="rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-4 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Confirmer
+              </button>
+            </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </FadeIn>
   );
 }
