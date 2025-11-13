@@ -132,14 +132,14 @@ export default function KingsPage() {
 
   return (
     <FadeIn className="pd-kings">
-      <div style={{ marginBottom: "1rem" }}>
+      <div className="px-4 md:px-0" style={{ marginBottom: "1rem" }}>
         <H1>King's</H1>
         <Sub>
           Tes règles perso, sans King's Cup centrale. Ajoute les joueurs, tire des cartes, et laisse la soirée faire le reste.
         </Sub>
       </div>
 
-      <div className="pd-kings-grid">
+      <div className="pd-kings-grid px-4 md:px-0">
         {/* Panel principal */}
         <Card className="pd-kings-main" >
           {/* Bouton tirer + contrôles */}
