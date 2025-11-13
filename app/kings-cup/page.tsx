@@ -4,7 +4,7 @@ import cfg from "@/data/kings_cup.config.json";
 import { useState, useEffect } from "react";
 import { Card, H1, Sub, FadeIn, PrimaryButton, Badge } from "@/components/UI";
 import PlayerSetup from "@/components/PlayerSetup";
-import { usePartyStore } from "@/lib/state";
+import { usePartyStore, type Player } from "@/lib/state";
 import { motion } from "framer-motion";
 
 type Action = Record<string, any>;
@@ -44,6 +44,9 @@ export default function KingsPage() {
   const [cardsLeft, setCardsLeft] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
 
+  // État pour capturer le joueur qui a tiré la carte affichée
+  const [lastDrawer, setLastDrawer] = useState<Player | null>(null);
+
   const activePlayer = players.length ? players[currentIndex % players.length] : null;
 
   function resetGame(newDeckCount?: number) {
@@ -57,6 +60,7 @@ export default function KingsPage() {
     setLast(null);
     setHistory([]);
     setGameStarted(false);
+    setLastDrawer(null);
 
     // Réinitialiser le tour des joueurs
     try {
@@ -76,6 +80,11 @@ export default function KingsPage() {
 
     setGameStarted(true);
 
+    // Capturer le joueur qui TIRE la carte (avant nextTurn)
+    const currentPlayer = players.length > 0
+      ? players[currentIndex % players.length]
+      : null;
+
     const [next, ...rest] = deck;
     const rule = conf.rule_map[next.rank];
 
@@ -85,6 +94,10 @@ export default function KingsPage() {
     setLast({ ...next, rule });
     setHistory((h) => [{ rank: next.rank, suit: next.suit }, ...h].slice(0, 8));
 
+    // Sauvegarder qui a tiré cette carte
+    setLastDrawer(currentPlayer);
+
+    // Passer au joueur suivant
     if (players.length > 0) nextTurn();
 
     if (typeof window !== "undefined" && "vibrate" in navigator) {
@@ -122,7 +135,7 @@ export default function KingsPage() {
               {activePlayer
                 ? (
                   <>
-                    Tour de <b style={{ marginLeft: 4 }}>{activePlayer.name}</b>
+                    Prochain : <b style={{ marginLeft: 4 }}>{activePlayer.name}</b>
                   </>
                 )
                 : "Ajoute des joueurs pour suivre les tours"}
@@ -218,6 +231,30 @@ export default function KingsPage() {
               </motion.div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                {/* Affichage clair du joueur qui a tiré + prochain */}
+                <div style={{ fontSize: "0.85rem", color: "var(--text-soft)", marginBottom: "0.5rem" }}>
+                  {lastDrawer ? (
+                    <>
+                      <div>
+                        Carte tirée par{" "}
+                        <span style={{ fontWeight: 600, color: "var(--text-main)" }}>
+                          {lastDrawer.name}
+                        </span>
+                      </div>
+                      {activePlayer && players.length > 1 && (
+                        <div style={{ marginTop: 2 }}>
+                          Prochain :{" "}
+                          <span style={{ fontWeight: 500 }}>
+                            {activePlayer.name}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div>Commence par tirer une carte pour lancer la partie.</div>
+                  )}
+                </div>
+
                 <div className="pd-section-title">Règle tirée</div>
                 <div style={{ fontSize: "1.15rem", fontWeight: 600 }}>{last.rule.label}</div>
                 {last.rule.hint && (

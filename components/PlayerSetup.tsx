@@ -24,7 +24,7 @@ export default function PlayerSetup() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0,1.6fr) 80px 80px 110px",
+          gridTemplateColumns: "minmax(120px, 1.6fr) 80px 80px 110px",
           gap: "0.4rem",
         }}
       >
@@ -32,7 +32,7 @@ export default function PlayerSetup() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nom"
-          className="pd-input"
+          className="pd-input w-full min-w-[120px]"
         />
         <select
           value={sex}
