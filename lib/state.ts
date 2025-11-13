@@ -8,6 +8,15 @@ export type AllianceGroup = {
   memberIds: string[];
 };
 
+export type PartyRule = {
+  id: string;
+  text: string;
+  createdById: string | null;
+  createdByName: string | null;
+  createdAt: number;
+  active: boolean;
+};
+
 function makeId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -16,18 +25,24 @@ type State = {
   players: Player[];
   currentIndex: number;
   alliances: AllianceGroup[];
+  partyRules: PartyRule[];
   addPlayer: (p: Omit<Player, "id">) => void;
   removePlayer: (id: string) => void;
   nextTurn: () => void;
   resetTurn: () => void;
   addAlliance: (p1Id: string, p2Id: string) => void;
   resetAlliances: () => void;
+  addPartyRule: (text: string, createdById: string | null, createdByName: string | null) => void;
+  togglePartyRule: (id: string) => void;
+  removePartyRule: (id: string) => void;
+  resetPartyRules: () => void;
 };
 
 export const usePartyStore = create<State>((set, get) => ({
   players: [],
   currentIndex: 0,
   alliances: [],
+  partyRules: [],
   addPlayer: (p) =>
     set((s) => ({
       players: [...s.players, { id: makeId(), ...p }],
@@ -84,4 +99,29 @@ export const usePartyStore = create<State>((set, get) => ({
     });
   },
   resetAlliances: () => set({ alliances: [] }),
+  addPartyRule: (text: string, createdById: string | null, createdByName: string | null) =>
+    set((s) => ({
+      partyRules: [
+        ...s.partyRules,
+        {
+          id: makeId(),
+          text,
+          createdById,
+          createdByName,
+          createdAt: Date.now(),
+          active: true,
+        },
+      ],
+    })),
+  togglePartyRule: (id: string) =>
+    set((s) => ({
+      partyRules: s.partyRules.map((r) =>
+        r.id === id ? { ...r, active: !r.active } : r
+      ),
+    })),
+  removePartyRule: (id: string) =>
+    set((s) => ({
+      partyRules: s.partyRules.filter((r) => r.id !== id),
+    })),
+  resetPartyRules: () => set({ partyRules: [] }),
 }));

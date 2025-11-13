@@ -4,7 +4,7 @@ import cfg from "@/data/kings_cup.config.json";
 import { useState, useEffect } from "react";
 import { Card, H1, Sub, FadeIn, PrimaryButton, Badge } from "@/components/UI";
 import PlayerSetup from "@/components/PlayerSetup";
-import { usePartyStore, type Player } from "@/lib/state";
+import { usePartyStore, type Player, type PartyRule } from "@/lib/state";
 import { motion } from "framer-motion";
 
 type Action = Record<string, any>;
@@ -36,7 +36,7 @@ export default function KingsPage() {
   const conf = cfg as unknown as Config;
   const [last, setLast] = useState<null | { rank: string; suit: string; rule: Rule }>(null);
   const [history, setHistory] = useState<{ rank: string; suit: string }[]>([]);
-  const { players, currentIndex, nextTurn, alliances } = usePartyStore();
+  const { players, currentIndex, nextTurn, alliances, partyRules } = usePartyStore();
 
   // États pour la gestion du deck
   const [deckCount, setDeckCount] = useState(1);
@@ -50,6 +50,13 @@ export default function KingsPage() {
   // États pour le modal "Pote de soirée"
   const [isPoteModalOpen, setIsPoteModalOpen] = useState(false);
   const [poteCandidateId, setPoteCandidateId] = useState<string | null>(null);
+
+  // États pour le modal "Invente une règle" (carte 7)
+  const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+  const [ruleDraft, setRuleDraft] = useState("");
+
+  // État pour le panel des règles
+  const [isRulesPanelOpen, setIsRulesPanelOpen] = useState(false);
 
   const activePlayer = players.length ? players[currentIndex % players.length] : null;
 
@@ -66,11 +73,12 @@ export default function KingsPage() {
     setGameStarted(false);
     setLastDrawer(null);
 
-    // Réinitialiser le tour des joueurs et les alliances
+    // Réinitialiser le tour des joueurs, les alliances et les règles
     try {
       const store = usePartyStore.getState();
       if (store.resetTurn) store.resetTurn();
       if (store.resetAlliances) store.resetAlliances();
+      if (store.resetPartyRules) store.resetPartyRules();
     } catch {}
   }
 
@@ -109,6 +117,12 @@ export default function KingsPage() {
     if (next.rank === "K" && currentPlayer && players.length > 1) {
       setPoteCandidateId(null);
       setIsPoteModalOpen(true);
+    }
+
+    // Si c'est un 7, ouvrir le modal pour inventer une règle
+    if (next.rank === "7") {
+      setRuleDraft("");
+      setIsRuleModalOpen(true);
     }
 
     if (typeof window !== "undefined" && "vibrate" in navigator) {
@@ -151,6 +165,18 @@ export default function KingsPage() {
                 )
                 : "Ajoute des joueurs pour suivre les tours"}
             </Badge>
+
+            <button
+              onClick={() => setIsRulesPanelOpen(true)}
+              className="rounded-full border border-slate-600/60 bg-slate-900/60 px-3 py-1 text-xs font-medium text-slate-200 hover:border-slate-400 hover:text-slate-50 transition-all"
+            >
+              📜 Règles de la partie
+              {partyRules.length > 0 && (
+                <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-fuchsia-500/20 text-[10px] font-semibold text-fuchsia-300">
+                  {partyRules.length}
+                </span>
+              )}
+            </button>
 
             <div style={{ fontSize: "0.8rem", color: "var(--text-soft)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
               Paquets :
@@ -372,6 +398,35 @@ export default function KingsPage() {
           setIsPoteModalOpen(false);
         }}
       />
+
+      {/* Modal Invente une règle (carte 7) */}
+      <PartyRuleModal
+        isOpen={isRuleModalOpen}
+        onClose={() => setIsRuleModalOpen(false)}
+        value={ruleDraft}
+        onChange={setRuleDraft}
+        currentPlayerName={lastDrawer?.name ?? null}
+        onConfirm={() => {
+          const text = ruleDraft.trim();
+          if (!text) return;
+          const store = usePartyStore.getState();
+          store.addPartyRule(
+            text,
+            lastDrawer?.id ?? null,
+            lastDrawer?.name ?? null
+          );
+          setIsRuleModalOpen(false);
+        }}
+      />
+
+      {/* Panel des règles de la partie */}
+      <PartyRulesPanel
+        isOpen={isRulesPanelOpen}
+        onClose={() => setIsRulesPanelOpen(false)}
+        rules={partyRules}
+        onToggle={(id) => usePartyStore.getState().togglePartyRule(id)}
+        onRemove={(id) => usePartyStore.getState().removePartyRule(id)}
+      />
     </FadeIn>
   );
 }
@@ -447,6 +502,178 @@ function PoteDeSoireeModal({
             Valider le pote
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// Composant Modal pour inventer une règle (carte 7)
+function PartyRuleModal({
+  isOpen,
+  onClose,
+  value,
+  onChange,
+  onConfirm,
+  currentPlayerName,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  value: string;
+  onChange: (v: string) => void;
+  onConfirm: () => void;
+  currentPlayerName?: string | null;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900/95 p-5 shadow-2xl">
+        <h2 className="mb-1 text-lg font-semibold text-slate-50">
+          Tu as tiré un 7 🎲
+        </h2>
+        <p className="mb-3 text-sm text-slate-300">
+          Invente une nouvelle règle pour la partie
+          {currentPlayerName && (
+            <>
+              {" "}
+              (by{" "}
+              <span className="font-medium text-slate-100">
+                {currentPlayerName}
+              </span>
+              )
+            </>
+          )}
+          .
+        </p>
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          rows={3}
+          placeholder="Exemples : Personne n'a le droit de dire 'oui'. Ou : Quand quelqu'un regarde son téléphone, il boit."
+          className="mb-3 w-full rounded-xl border border-slate-600/70 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-fuchsia-400 focus:outline-none focus:ring-1 focus:ring-fuchsia-400/60"
+        />
+        <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={onClose}
+            className="text-sm text-slate-400 hover:text-slate-200"
+          >
+            Plus tard
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={!value.trim()}
+            className="rounded-full bg-gradient-to-r from-pink-500 to-violet-500 px-4 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Ajouter la règle
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Composant Panel pour consulter les règles de la partie
+function PartyRulesPanel({
+  isOpen,
+  onClose,
+  rules,
+  onToggle,
+  onRemove,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  rules: PartyRule[];
+  onToggle: (id: string) => void;
+  onRemove: (id: string) => void;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-40 flex items-center justify-end bg-black/40 backdrop-blur-sm">
+      <div className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-slate-950/95 p-5 shadow-2xl">
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+              RÈGLES DE LA PARTIE
+            </h2>
+            <p className="text-xs text-slate-400">
+              Règles inventées en cours de jeu (carte 7).
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-xs text-slate-400 hover:text-slate-200"
+          >
+            Fermer
+          </button>
+        </div>
+
+        {rules.length === 0 ? (
+          <p className="text-sm text-slate-400">
+            Aucune règle inventée pour l'instant. Tire un 7 pour créer une
+            règle.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {rules
+              .slice()
+              .sort((a, b) => a.createdAt - b.createdAt)
+              .map((rule) => (
+                <div
+                  key={rule.id}
+                  className="rounded-xl border border-slate-700/70 bg-slate-900/80 p-3 text-sm text-slate-100"
+                >
+                  <div className="mb-1 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => onToggle(rule.id)}
+                        className={`h-4 w-4 rounded-full border transition ${
+                          rule.active
+                            ? "border-emerald-400 bg-emerald-400"
+                            : "border-slate-500 bg-slate-900"
+                        }`}
+                        aria-label={
+                          rule.active ? "Règle active" : "Règle inactive"
+                        }
+                      />
+                      <span
+                        className={`text-xs ${
+                          rule.active
+                            ? "text-emerald-300"
+                            : "text-slate-400 line-through"
+                        }`}
+                      >
+                        {rule.active ? "Active" : "Inactive"}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => onRemove(rule.id)}
+                      className="text-[11px] text-slate-500 hover:text-rose-400"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                  <p
+                    className={`whitespace-pre-wrap text-[13px] ${
+                      rule.active
+                        ? "text-slate-100"
+                        : "text-slate-400 line-through"
+                    }`}
+                  >
+                    {rule.text}
+                  </p>
+                  {rule.createdByName && (
+                    <p className="mt-1 text-[11px] text-slate-500">
+                      Proposée par{" "}
+                      <span className="font-medium text-slate-300">
+                        {rule.createdByName}
+                      </span>
+                    </p>
+                  )}
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );
