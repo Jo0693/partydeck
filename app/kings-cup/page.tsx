@@ -413,18 +413,18 @@ function PoteDeSoireeModal({
           Choisis ton pote de soirée. Chaque fois que l'un de vous boit, l'autre boit aussi.
         </p>
 
-        <div className="mb-4 flex flex-wrap gap-2">
+        <div className="mb-4 flex flex-wrap gap-3">
           {poteOptions.map((p) => {
             const isActive = selectedId === p.id;
             return (
               <button
                 key={p.id}
                 onClick={() => setSelectedId(isActive ? null : p.id)}
-                className={`rounded-full border px-3 py-1 text-sm transition ${
+                className={
                   isActive
-                    ? "border-fuchsia-400 bg-fuchsia-500/20 text-fuchsia-100"
-                    : "border-slate-600 bg-slate-800/80 text-slate-200 hover:border-slate-400"
-                }`}
+                    ? "rounded-full border-2 border-fuchsia-400 bg-fuchsia-500/20 px-4 py-2 text-sm font-medium text-white shadow-[0_0_12px_rgba(236,72,153,0.6)] scale-[1.08] transition-all duration-150"
+                    : "rounded-full border border-slate-600/60 bg-slate-800/60 px-4 py-2 text-sm text-slate-200 hover:border-slate-400 transition-all duration-150"
+                }
               >
                 {p.name}
               </button>
