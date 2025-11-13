@@ -13,6 +13,14 @@ const games = [
     active: true,
   },
   {
+    href: "/never-have-i-ever",
+    title: "Never Have I Ever",
+    desc: "Classique « Je n'ai jamais » en version mobile.",
+    tag: "Nouveau",
+    icon: "🙋‍♂️",
+    active: true,
+  },
+  {
     href: "#",
     title: "Drunkopoly",
     desc: "Plateau inspiré du Monopoly, version alcoolisée.",
