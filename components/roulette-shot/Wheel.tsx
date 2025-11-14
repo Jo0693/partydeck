@@ -23,11 +23,14 @@ export default function Wheel({
     <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[400px]">
       {/* Cursor/Triangle indicator at top */}
       <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-2">
-        <div className="h-0 w-0 border-l-[12px] border-r-[12px] border-t-[20px] border-l-transparent border-r-transparent border-t-white drop-shadow-lg" />
+        <div
+          className="h-0 w-0 border-l-[12px] border-r-[12px] border-t-[20px] border-l-transparent border-r-transparent border-t-white"
+          style={{ filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))" }}
+        />
       </div>
 
       {/* Wheel container */}
-      <div className="relative aspect-square w-full">
+      <div className="relative aspect-square w-full" style={{ filter: "drop-shadow(0 0 80px rgba(0, 0, 0, 0.3))" }}>
         <motion.div
           className="absolute inset-0"
           animate={{ rotate: rotation }}
@@ -36,8 +39,7 @@ export default function Wheel({
             ease: isSpinning ? [0.25, 0.1, 0.25, 1] : "linear",
           }}
         >
-          {/* Outer glow */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500/30 to-fuchsia-500/30 blur-xl" />
+          {/* Outer glow removed - using drop-shadow on container instead */}
 
           {/* Wheel SVG */}
           <svg
@@ -66,81 +68,82 @@ export default function Wheel({
                 `Z`,
               ].join(" ");
 
-              // Calculate icon and text positions (towards outer edge)
+              // Calculate icon position (centered in segment)
               const midAngle = startAngle + anglePerSegment / 2;
               const midRad = (midAngle * Math.PI) / 180;
 
-              // Icon position (outer)
-              const iconX = 100 + 70 * Math.cos(midRad);
-              const iconY = 100 + 70 * Math.sin(midRad);
-
-              // Text position (inner, below icon)
-              const textX = 100 + 55 * Math.cos(midRad);
-              const textY = 100 + 55 * Math.sin(midRad);
+              // Icon position (centered in segment, no rotation)
+              const iconX = 100 + 60 * Math.cos(midRad);
+              const iconY = 100 + 60 * Math.sin(midRad);
 
               const isSelected = !isSpinning && segment.id === selectedSegmentId;
 
               return (
                 <g key={segment.id}>
-                  {/* Segment path */}
+                  {/* Segment path with gradient */}
+                  <defs>
+                    <radialGradient id={`grad-${segment.id}`} cx="50%" cy="50%">
+                      <stop offset="0%" stopColor={segment.color} stopOpacity="1" />
+                      <stop offset="100%" stopColor={segment.color} stopOpacity="0.85" />
+                    </radialGradient>
+                  </defs>
                   <path
                     d={pathData}
-                    fill={segment.color}
+                    fill={`url(#grad-${segment.id})`}
                     stroke={
                       isSelected
-                        ? "rgba(255, 255, 255, 0.8)"
-                        : "rgba(255, 255, 255, 0.2)"
+                        ? "rgba(255, 255, 255, 0.9)"
+                        : "rgba(255, 255, 255, 0.15)"
                     }
-                    strokeWidth={isSelected ? "2" : "0.5"}
+                    strokeWidth={isSelected ? "2.5" : "0.5"}
                     opacity={isSelected ? 1 : 0.95}
                     filter={
                       isSelected
-                        ? `drop-shadow(0 0 8px ${segment.color})`
+                        ? `drop-shadow(0 0 12px ${segment.color})`
                         : undefined
                     }
                   />
 
-                  {/* Icon (emoji) */}
+                  {/* Icon (emoji) - centered, larger */}
                   <text
                     x={iconX}
                     y={iconY}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="16"
-                    transform={`rotate(${midAngle + 90}, ${iconX}, ${iconY})`}
+                    fontSize="24"
                     className="pointer-events-none select-none"
+                    style={{ filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))" }}
                   >
                     {segment.icon}
-                  </text>
-
-                  {/* Short label */}
-                  <text
-                    x={textX}
-                    y={textY}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="white"
-                    fontSize="6"
-                    fontWeight="600"
-                    transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
-                    className="pointer-events-none select-none"
-                    style={{
-                      textShadow: "0 1px 3px rgba(0, 0, 0, 0.8)",
-                    }}
-                  >
-                    {segment.labelShort}
                   </text>
                 </g>
               );
             })}
 
-            {/* Center circle */}
+            {/* Outer ring */}
             <circle
               cx="100"
               cy="100"
-              r="15"
-              fill="rgba(15, 23, 42, 0.95)"
-              stroke="rgba(255, 255, 255, 0.3)"
+              r="97"
+              fill="none"
+              stroke="rgba(255, 255, 255, 0.25)"
+              strokeWidth="1.5"
+              style={{ filter: "drop-shadow(0 0 6px rgba(255, 255, 255, 0.15))" }}
+            />
+
+            {/* Center circle with gradient */}
+            <defs>
+              <radialGradient id="centerGrad" cx="50%" cy="50%">
+                <stop offset="0%" stopColor="rgba(30, 41, 59, 1)" />
+                <stop offset="100%" stopColor="rgba(15, 23, 42, 1)" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="100"
+              cy="100"
+              r="18"
+              fill="url(#centerGrad)"
+              stroke="rgba(255, 255, 255, 0.4)"
               strokeWidth="2"
             />
           </svg>
