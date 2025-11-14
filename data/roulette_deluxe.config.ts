@@ -27,12 +27,12 @@ function getRouletteColor(id: string): DeluxeColor {
   return "black";
 }
 
-// American roulette wheel order
-const WHEEL_ORDER = [
-  "0",
-  "28", "9", "26", "30", "11", "7", "20", "32", "17", "5", "22", "34", "15", "3", "24", "36", "13", "1",
-  "00",
-  "27", "10", "25", "29", "12", "8", "19", "31", "18", "6", "21", "33", "16", "4", "23", "35", "14", "2",
+// American roulette wheel order (official layout)
+const AMERICAN_ROULETTE_ORDER: string[] = [
+  "00", "27", "10", "25", "29", "12", "8", "19", "31", "18", "6", "21",
+  "33", "16", "4", "23", "35", "14", "2", "0", "28", "9", "26", "30",
+  "11", "7", "20", "32", "17", "5", "22", "34", "15", "3", "24", "36",
+  "13", "1",
 ];
 
 // Sips distribution: 10×1, 8×2, 8×3, 6×4, 4×5
@@ -44,7 +44,7 @@ const SIPS_MAP: Record<string, number> = {
 };
 
 // Build segments in American roulette wheel order
-export const DELUXE_SEGMENTS: DeluxeSegment[] = WHEEL_ORDER.map((id) => {
+export const DELUXE_SEGMENTS: DeluxeSegment[] = AMERICAN_ROULETTE_ORDER.map((id) => {
   const color = getRouletteColor(id);
 
   if (id === "0") {
