@@ -18,52 +18,50 @@ export interface DeluxeResult {
   description: string;
 }
 
-// Roulette layout follows European roulette order with alternating red/black
-// For simplicity, we use a consistent pattern while maintaining casino aesthetics
-export const DELUXE_SEGMENTS: DeluxeSegment[] = [
-  // 0 and 00 (green)
-  { id: "0", kind: "zero", color: "green" },
-  { id: "00", kind: "double_zero", color: "green" },
+// Get official roulette color for a number
+function getRouletteColor(id: string): DeluxeColor {
+  if (id === "0" || id === "00") return "green";
+  const n = parseInt(id, 10);
+  const redNumbers = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+  if (redNumbers.has(n)) return "red";
+  return "black";
+}
 
-  // Numbers 1-36 with red/black alternation and sips distribution
-  // 10 cases with 1 sip
-  { id: "1", kind: "number", color: "red", baseSips: 1 },
-  { id: "2", kind: "number", color: "black", baseSips: 1 },
-  { id: "3", kind: "number", color: "red", baseSips: 2 },
-  { id: "4", kind: "number", color: "black", baseSips: 3 },
-  { id: "5", kind: "number", color: "red", baseSips: 1 },
-  { id: "6", kind: "number", color: "black", baseSips: 2 },
-  { id: "7", kind: "number", color: "red", baseSips: 4 },
-  { id: "8", kind: "number", color: "black", baseSips: 1 },
-  { id: "9", kind: "number", color: "red", baseSips: 3 },
-  { id: "10", kind: "number", color: "black", baseSips: 2 },
-  { id: "11", kind: "number", color: "black", baseSips: 1 },
-  { id: "12", kind: "number", color: "red", baseSips: 5 },
-  { id: "13", kind: "number", color: "black", baseSips: 2 },
-  { id: "14", kind: "number", color: "red", baseSips: 3 },
-  { id: "15", kind: "number", color: "black", baseSips: 1 },
-  { id: "16", kind: "number", color: "red", baseSips: 4 },
-  { id: "17", kind: "number", color: "black", baseSips: 2 },
-  { id: "18", kind: "number", color: "red", baseSips: 1 },
-  { id: "19", kind: "number", color: "red", baseSips: 3 },
-  { id: "20", kind: "number", color: "black", baseSips: 5 },
-  { id: "21", kind: "number", color: "red", baseSips: 2 },
-  { id: "22", kind: "number", color: "black", baseSips: 4 },
-  { id: "23", kind: "number", color: "red", baseSips: 1 },
-  { id: "24", kind: "number", color: "black", baseSips: 3 },
-  { id: "25", kind: "number", color: "red", baseSips: 5 },
-  { id: "26", kind: "number", color: "black", baseSips: 2 },
-  { id: "27", kind: "number", color: "red", baseSips: 4 },
-  { id: "28", kind: "number", color: "black", baseSips: 1 },
-  { id: "29", kind: "number", color: "black", baseSips: 3 },
-  { id: "30", kind: "number", color: "red", baseSips: 1 },
-  { id: "31", kind: "number", color: "black", baseSips: 5 },
-  { id: "32", kind: "number", color: "red", baseSips: 2 },
-  { id: "33", kind: "number", color: "black", baseSips: 4 },
-  { id: "34", kind: "number", color: "red", baseSips: 3 },
-  { id: "35", kind: "number", color: "black", baseSips: 2 },
-  { id: "36", kind: "number", color: "red", baseSips: 3 },
+// American roulette wheel order
+const WHEEL_ORDER = [
+  "0",
+  "28", "9", "26", "30", "11", "7", "20", "32", "17", "5", "22", "34", "15", "3", "24", "36", "13", "1",
+  "00",
+  "27", "10", "25", "29", "12", "8", "19", "31", "18", "6", "21", "33", "16", "4", "23", "35", "14", "2",
 ];
+
+// Sips distribution: 10×1, 8×2, 8×3, 6×4, 4×5
+const SIPS_MAP: Record<string, number> = {
+  "1": 1, "2": 1, "3": 2, "4": 3, "5": 1, "6": 2, "7": 4, "8": 1, "9": 3, "10": 2,
+  "11": 1, "12": 5, "13": 2, "14": 3, "15": 1, "16": 4, "17": 2, "18": 1, "19": 3, "20": 5,
+  "21": 2, "22": 4, "23": 1, "24": 3, "25": 5, "26": 2, "27": 4, "28": 1, "29": 3, "30": 1,
+  "31": 5, "32": 2, "33": 4, "34": 3, "35": 2, "36": 3,
+};
+
+// Build segments in American roulette wheel order
+export const DELUXE_SEGMENTS: DeluxeSegment[] = WHEEL_ORDER.map((id) => {
+  const color = getRouletteColor(id);
+
+  if (id === "0") {
+    return { id, kind: "zero", color };
+  }
+
+  if (id === "00") {
+    return { id, kind: "double_zero", color };
+  }
+
+  return {
+    id,
+    kind: "number",
+    color,
+    baseSips: SIPS_MAP[id] || 1,
+  };
+});
 
 // Color palette for visual display
 export const DELUXE_COLORS = {
