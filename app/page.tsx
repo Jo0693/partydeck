@@ -24,8 +24,16 @@ const games = [
     href: "/roulette-shot",
     title: "Roulette Shot",
     desc: "Lance la roue et accepte ton destin.",
-    tag: "Nouveau",
+    tag: "Disponible",
     icon: "🎡",
+    active: true,
+  },
+  {
+    href: "/roulette-deluxe",
+    title: "Roulette Deluxe",
+    desc: "Roulette casino 0/00, rouge/noir — version full alcool.",
+    tag: "Nouveau",
+    icon: "🍸",
     active: true,
   },
   {
