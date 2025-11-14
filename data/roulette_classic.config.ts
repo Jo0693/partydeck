@@ -86,24 +86,24 @@ export const CLASSIC_SEGMENTS: SegmentDef[] = [
   },
   {
     id: 1,
+    type: "culsec",
+    labelShort: "Cul Sec",
+    icon: "💀",
+    color: SEGMENT_TYPE_META.culsec.color,
+  },
+  {
+    id: 2,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 3,
     type: "defi",
     labelShort: "Défi",
     icon: "💪",
     color: SEGMENT_TYPE_META.defi.color,
-  },
-  {
-    id: 2,
-    type: "verite",
-    labelShort: "Vérité",
-    icon: "💬",
-    color: SEGMENT_TYPE_META.verite.color,
-  },
-  {
-    id: 3,
-    type: "gage",
-    labelShort: "Gage",
-    icon: "🎭",
-    color: SEGMENT_TYPE_META.gage.color,
   },
   {
     id: 4,
@@ -114,10 +114,10 @@ export const CLASSIC_SEGMENTS: SegmentDef[] = [
   },
   {
     id: 5,
-    type: "defi",
-    labelShort: "Défi",
-    icon: "💪",
-    color: SEGMENT_TYPE_META.defi.color,
+    type: "culsec",
+    labelShort: "Cul Sec",
+    icon: "💀",
+    color: SEGMENT_TYPE_META.culsec.color,
   },
   {
     id: 6,
@@ -128,31 +128,31 @@ export const CLASSIC_SEGMENTS: SegmentDef[] = [
   },
   {
     id: 7,
-    type: "joker",
-    labelShort: "Joker",
-    icon: "🎁",
-    color: SEGMENT_TYPE_META.joker.color,
-  },
-  {
-    id: 8,
     type: "gorgee",
     labelShort: "Gorgées",
     icon: "🍺",
     color: SEGMENT_TYPE_META.gorgee.color,
   },
   {
+    id: 8,
+    type: "joker",
+    labelShort: "Joker",
+    icon: "🎁",
+    color: SEGMENT_TYPE_META.joker.color,
+  },
+  {
     id: 9,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 10,
     type: "culsec",
     labelShort: "Cul Sec",
     icon: "💀",
     color: SEGMENT_TYPE_META.culsec.color,
-  },
-  {
-    id: 10,
-    type: "gage",
-    labelShort: "Gage",
-    icon: "🎭",
-    color: SEGMENT_TYPE_META.gage.color,
   },
   {
     id: 11,
@@ -163,31 +163,31 @@ export const CLASSIC_SEGMENTS: SegmentDef[] = [
   },
   {
     id: 12,
+    type: "gorgee",
+    labelShort: "Gorgées",
+    icon: "🍺",
+    color: SEGMENT_TYPE_META.gorgee.color,
+  },
+  {
+    id: 13,
     type: "rien",
     labelShort: "Rien",
     icon: "❌",
     color: SEGMENT_TYPE_META.rien.color,
   },
   {
-    id: 13,
+    id: 14,
     type: "verite",
     labelShort: "Vérité",
     icon: "💬",
     color: SEGMENT_TYPE_META.verite.color,
   },
   {
-    id: 14,
+    id: 15,
     type: "culsec",
     labelShort: "Cul Sec",
     icon: "💀",
     color: SEGMENT_TYPE_META.culsec.color,
-  },
-  {
-    id: 15,
-    type: "gage",
-    labelShort: "Gage",
-    icon: "🎭",
-    color: SEGMENT_TYPE_META.gage.color,
   },
   {
     id: 16,
@@ -198,32 +198,16 @@ export const CLASSIC_SEGMENTS: SegmentDef[] = [
   },
   {
     id: 17,
-    type: "culsec",
-    labelShort: "Cul Sec",
-    icon: "💀",
-    color: SEGMENT_TYPE_META.culsec.color,
+    type: "relance",
+    labelShort: "Relance",
+    icon: "🔁",
+    color: SEGMENT_TYPE_META.relance.color,
   },
 ];
 
-export const RELANCE_SEGMENT: SegmentDef = {
-  id: 18,
-  type: "relance",
-  labelShort: "Relance",
-  icon: "🔁",
-  color: SEGMENT_TYPE_META.relance.color,
-};
-
-// Insert relance randomly in the array - ONLY called once during build
-function insertRelance(): SegmentDef[] {
-  const segments = [...CLASSIC_SEGMENTS];
-  const randomIndex = Math.floor(Math.random() * segments.length);
-  segments.splice(randomIndex, 0, RELANCE_SEGMENT);
-  return segments;
-}
-
-// Generate segments with relance
+// Generate segments (relance is now directly in CLASSIC_SEGMENTS)
 export function generateSegments(): SegmentDef[] {
-  return insertRelance();
+  return CLASSIC_SEGMENTS;
 }
 
 // Lists of random content for each type
