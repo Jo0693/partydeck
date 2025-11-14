@@ -2,7 +2,6 @@ export type SegmentType =
   | "gorgee"
   | "defi"
   | "verite"
-  | "gage"
   | "joker"
   | "rien"
   | "relance"
@@ -29,49 +28,43 @@ export const SEGMENT_TYPE_META: Record<
   gorgee: {
     label: "Gorgées",
     icon: "🍺",
-    description: "Bois 2-4 gorgées",
+    description: "Bois un nombre de gorgées indiqué. Ça commence à piquer… 🍺",
     color: "#F87171",
   },
   defi: {
     label: "Défi",
     icon: "💪",
-    description: "Réalise un défi aléatoire",
+    description: "Un défi à relever, sinon tu bois.",
     color: "#A855F7",
   },
   verite: {
     label: "Vérité",
     icon: "💬",
-    description: "Réponds à une question vérité",
+    description: "Répond honnêtement à une question… ou bois.",
     color: "#3B82F6",
-  },
-  gage: {
-    label: "Gage",
-    icon: "🎭",
-    description: "Accomplis un gage embarrassant",
-    color: "#EC4899",
   },
   joker: {
     label: "Joker",
     icon: "🎁",
-    description: "Donne ton action à quelqu'un",
+    description: "Tu peux refiler l'action à quelqu'un d'autre. 🎁",
     color: "#FACC15",
   },
   rien: {
     label: "Rien",
     icon: "❌",
-    description: "T'as de la chance... pour cette fois",
+    description: "Tu t'en sors bien pour cette fois. 😮‍💨",
     color: "#4B5563",
   },
   relance: {
     label: "Relance",
     icon: "🔁",
-    description: "La roue tourne encore une fois !",
+    description: "La roue tourne à nouveau. Tu n'y échapperas pas longtemps.",
     color: "#22D3EE",
   },
   culsec: {
-    label: "Cul Sec",
+    label: "Cul sec",
     icon: "💀",
-    description: "Bois ton verre d'un coup",
+    description: "Tu vides ton verre. Pas de négociation. 💀",
     color: "#B91C1C",
   },
 };

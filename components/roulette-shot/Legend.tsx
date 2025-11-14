@@ -4,11 +4,10 @@ import { SEGMENT_TYPE_META, SegmentType } from "@/data/roulette_classic.config";
 
 const SEGMENT_TYPES_ORDER: SegmentType[] = [
   "gorgee",
+  "culsec",
   "defi",
   "verite",
-  "gage",
   "joker",
-  "culsec",
   "relance",
   "rien",
 ];
