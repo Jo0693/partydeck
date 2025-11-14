@@ -83,9 +83,6 @@ export default function RouletteShot() {
         case "verite":
           text = getRandomVerite();
           break;
-        case "gage":
-          text = getRandomGage();
-          break;
         case "joker":
           text = "Donne ton action à quelqu'un d'autre 🎁";
           break;
