@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Card, H1, Sub, FadeIn } from "@/components/UI";
 import { motion } from "framer-motion";
 import WheelDeluxe from "@/components/roulette-deluxe/WheelDeluxe";
+import ParticipantsPanel from "@/components/roulette-deluxe/ParticipantsPanel";
+import StatsPanel from "@/components/roulette-deluxe/StatsPanel";
 import {
   DELUXE_SEGMENTS,
   DeluxeSegment,
@@ -11,6 +13,8 @@ import {
   computeDeluxeResult,
   DELUXE_COLORS,
 } from "@/data/roulette_deluxe.config";
+import { DeluxePlayer } from "@/lib/rouletteDeluxeTypes";
+import { applyResultToPlayers } from "@/lib/rouletteDeluxeStats";
 
 export default function RouletteDeluxe() {
   const [rotation, setRotation] = useState(0);
@@ -19,8 +23,15 @@ export default function RouletteDeluxe() {
     null
   );
   const [result, setResult] = useState<DeluxeResult | null>(null);
+  const [players, setPlayers] = useState<DeluxePlayer[]>([]);
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 
   const totalSegments = DELUXE_SEGMENTS.length;
+  const currentPlayer = players.length > 0 ? players[currentPlayerIndex] : null;
+  const nextPlayer =
+    players.length > 1
+      ? players[(currentPlayerIndex + 1) % players.length]
+      : null;
 
   function spin() {
     if (isSpinning) return;
@@ -55,8 +66,33 @@ export default function RouletteDeluxe() {
       setSelectedSegment(selectedSeg);
       const deluxeResult = computeDeluxeResult(selectedSeg);
       setResult(deluxeResult);
+
+      // Update stats if we have players
+      if (players.length > 0) {
+        const updatedPlayers = applyResultToPlayers(
+          players,
+          currentPlayerIndex,
+          deluxeResult
+        );
+        setPlayers(updatedPlayers);
+
+        // Move to next player
+        setCurrentPlayerIndex((prev) =>
+          players.length > 0 ? (prev + 1) % players.length : 0
+        );
+      }
     }, 5000);
   }
+
+  const handlePlayersChange = (newPlayers: DeluxePlayer[]) => {
+    setPlayers(newPlayers);
+    // Adjust current player index if needed
+    if (newPlayers.length === 0) {
+      setCurrentPlayerIndex(0);
+    } else if (currentPlayerIndex >= newPlayers.length) {
+      setCurrentPlayerIndex(newPlayers.length - 1);
+    }
+  };
 
   // Get display color for result card
   const getResultColor = () => {
@@ -76,19 +112,37 @@ export default function RouletteDeluxe() {
       <div className="px-4 md:px-0">
         <Card>
           <div className="flex flex-col gap-8">
-            {/* Badge Mode Casino */}
-            <div className="flex justify-center">
-              <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
-                style={{
-                  backgroundColor: `${DELUXE_COLORS.gold}20`,
-                  border: `2px solid ${DELUXE_COLORS.gold}`,
-                  color: DELUXE_COLORS.gold,
-                }}
-              >
-                🍸 Mode Casino
+            {/* Participants Panel */}
+            <ParticipantsPanel
+              players={players}
+              onPlayersChange={handlePlayersChange}
+            />
+
+            {/* Current Turn Indicator */}
+            {players.length > 0 && (
+              <div className="text-center">
+                <p className="text-sm text-slate-400">Tour de :</p>
+                <p
+                  className="text-2xl font-bold"
+                  style={{ color: DELUXE_COLORS.gold }}
+                >
+                  {currentPlayer?.name}
+                </p>
+                {nextPlayer && (
+                  <p className="mt-1 text-sm text-slate-500">
+                    Prochain : {nextPlayer.name}
+                  </p>
+                )}
               </div>
-            </div>
+            )}
+
+            {players.length === 0 && (
+              <div className="rounded-lg bg-slate-800/40 p-4 text-center">
+                <p className="text-sm text-slate-400">
+                  Ajoute au moins un joueur pour suivre les tours.
+                </p>
+              </div>
+            )}
 
             {/* Wheel */}
             <div className="flex flex-col items-center gap-6">
@@ -247,6 +301,11 @@ export default function RouletteDeluxe() {
             )}
           </div>
         </Card>
+
+        {/* Stats Panel */}
+        <div className="mt-8">
+          <StatsPanel players={players} />
+        </div>
       </div>
     </FadeIn>
   );
