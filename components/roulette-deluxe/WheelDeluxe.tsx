@@ -72,12 +72,12 @@ export default function WheelDeluxe({
                 `Z`,
               ].join(" ");
 
-              // Calculate text position (centered in segment)
+              // Calculate text position (centered in segment, closer to center)
               const midAngle = startAngle + anglePerSegment / 2;
               const midRad = (midAngle * Math.PI) / 180;
 
-              const textX = 100 + 68 * Math.cos(midRad);
-              const textY = 100 + 68 * Math.sin(midRad);
+              const textX = 100 + 60 * Math.cos(midRad);
+              const textY = 100 + 60 * Math.sin(midRad);
 
               const isSelected =
                 !isSpinning && segment.id === selectedSegmentId;
@@ -126,7 +126,7 @@ export default function WheelDeluxe({
                     y={textY}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize={segment.kind === "number" ? "11" : "14"}
+                    fontSize={segment.kind === "number" ? "9" : "12"}
                     fontWeight="700"
                     fill="white"
                     className="pointer-events-none select-none"
