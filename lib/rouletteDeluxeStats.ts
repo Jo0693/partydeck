@@ -2,80 +2,79 @@ import { DeluxePlayer } from "./rouletteDeluxeTypes";
 import { DeluxeResult } from "@/data/roulette_deluxe.config";
 
 /**
- * Apply result stats to players based on the last player who spun the wheel.
+ * Apply result stats to players based on the ACTIVE player who spun the wheel.
  *
- * Rules:
+ * Rules (PHASE 4 - DÉFINITIF):
  * - "drink" (red): actor drinks sips
- * - "give" (black): actor gives sips (globally, not tracked per recipient)
- * - "event_zero" (0 green): everyone drinks 3, actor distributes 5
- * - "event_double_zero" (00 green): actor takes 1 shot, everyone drinks 2, next player drinks 5 more
+ * - "give" (black): actor distributes sips (globally)
+ * - "event_zero" (0 green): everyone drinks 3, actor distributes 5, zeroEvents++
+ * - "event_double_zero" (00 green): actor takes 1 shot, everyone drinks 2, next player drinks 5 more, doubleZeroEvents++
  *
  * @param players - Current players array
- * @param lastPlayerIndex - Index of the player who just spun (null if no spin yet)
+ * @param activePlayerIndex - Index of the player who just spun
  * @param result - Result from the wheel spin
  * @returns New players array with updated stats
  */
 export function applyResultToPlayers(
   players: DeluxePlayer[],
-  lastPlayerIndex: number | null,
+  activePlayerIndex: number,
   result: DeluxeResult
 ): DeluxePlayer[] {
-  // No players or no one has spun yet
-  if (players.length === 0 || lastPlayerIndex === null) {
+  // No players
+  if (players.length === 0) {
     return players;
   }
 
-  // Ensure valid index
-  if (lastPlayerIndex < 0 || lastPlayerIndex >= players.length) {
-    return players;
-  }
-
-  // Create a deep copy of players with stats
-  const updatedPlayers = players.map((p) => ({
+  // Toujours travailler sur une copie immuable
+  const newPlayers = players.map((p) => ({
     ...p,
     stats: { ...p.stats },
   }));
 
-  const actorIndex = lastPlayerIndex;
-  const actor = updatedPlayers[actorIndex];
-  const nextIndex = (actorIndex + 1) % players.length;
+  const actorIndex = activePlayerIndex;
+  const actor = newPlayers[actorIndex];
+  const sips = result.sips ?? 0;
+  const playerCount = newPlayers.length;
+  const nextIndex = (actorIndex + 1) % playerCount;
 
   switch (result.action) {
     case "drink":
-      // RED: Actor drinks
-      actor.stats.drinksTaken += result.sips ?? 0;
+      // ROUGE: le joueur actif boit
+      actor.stats.drinksTaken += sips;
       break;
 
     case "give":
-      // BLACK: Actor distributes (globally, not tracked per recipient)
-      actor.stats.drinksGiven += result.sips ?? 0;
+      // NOIR: le joueur actif distribue
+      actor.stats.drinksGiven += sips;
       break;
 
     case "event_zero":
-      // GREEN 0: Everyone drinks 3, actor distributes 5
-      updatedPlayers.forEach((p) => {
+      // VERT 0: tout le monde boit 3, acteur distribue 5, compteur++
+      for (const p of newPlayers) {
         p.stats.drinksTaken += 3;
-      });
+      }
       actor.stats.drinksGiven += 5;
       actor.stats.zeroEvents += 1;
       break;
 
     case "event_double_zero":
-      // GREEN 00: Actor takes 1 shot, everyone drinks 2, next player drinks 5 more
+      // VERT 00: acteur prend un cul sec, tout le monde boit 2, joueur suivant boit 5 de plus, compteur++
       actor.stats.shotsTaken += 1;
 
-      updatedPlayers.forEach((p) => {
+      for (const p of newPlayers) {
         p.stats.drinksTaken += 2;
-      });
-
-      // Next player drinks 5 additional sips (only if there's more than 1 player)
-      if (players.length > 1) {
-        updatedPlayers[nextIndex].stats.drinksTaken += 5;
       }
+
+      const target = newPlayers[nextIndex];
+      target.stats.drinksTaken += 5;
 
       actor.stats.doubleZeroEvents += 1;
       break;
+
+    default:
+      // Sécurité: retourner newPlayers sans autre modification
+      break;
   }
 
-  return updatedPlayers;
+  return newPlayers;
 }

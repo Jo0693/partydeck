@@ -24,22 +24,42 @@ export default function RouletteDeluxe() {
   );
   const [result, setResult] = useState<DeluxeResult | null>(null);
   const [players, setPlayers] = useState<DeluxePlayer[]>([]);
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [lastPlayerIndex, setLastPlayerIndex] = useState<number | null>(null);
+
+  // Celui qui va jouer au prochain spin
+  const [nextPlayerIndex, setNextPlayerIndex] = useState<number>(0);
+
+  // Celui qui a joué pour le spin actuel (le résultat affiché)
+  const [activePlayerIndex, setActivePlayerIndex] = useState<number | null>(null);
 
   const totalSegments = DELUXE_SEGMENTS.length;
-  const currentPlayer = players.length > 0 ? players[currentPlayerIndex] : null;
-  const lastPlayer =
-    lastPlayerIndex !== null && players.length > 0
-      ? players[lastPlayerIndex]
-      : null;
+
+  // Fonction appelée quand le spin est complètement terminé
+  function handleSpinComplete(finalResult: DeluxeResult) {
+    setResult(finalResult);
+
+    if (players.length === 0 || activePlayerIndex == null) {
+      // Pas de stats à appliquer si personne n'est actif
+      return;
+    }
+
+    // 1) Mettre à jour les stats
+    setPlayers((prev) =>
+      applyResultToPlayers(prev, activePlayerIndex, finalResult)
+    );
+
+    // 2) Mettre à jour le nextPlayerIndex pour le prochain tour
+    setNextPlayerIndex(() => {
+      if (players.length === 0) return 0;
+      return (activePlayerIndex + 1) % players.length;
+    });
+  }
 
   function spin() {
     if (isSpinning) return;
 
-    // Set the player who is spinning NOW
+    // PHASE 2 : Figer le joueur actif AVANT de lancer
     if (players.length > 0) {
-      setLastPlayerIndex(currentPlayerIndex);
+      setActivePlayerIndex(nextPlayerIndex);
     }
 
     setIsSpinning(true);
@@ -71,32 +91,24 @@ export default function RouletteDeluxe() {
       setIsSpinning(false);
       setSelectedSegment(selectedSeg);
       const deluxeResult = computeDeluxeResult(selectedSeg);
-      setResult(deluxeResult);
 
-      // Update stats if we have players - use lastPlayerIndex (the one who just spun)
-      if (players.length > 0 && lastPlayerIndex !== null) {
-        const updatedPlayers = applyResultToPlayers(
-          players,
-          lastPlayerIndex,
-          deluxeResult
-        );
-        setPlayers(updatedPlayers);
-
-        // Move to next player AFTER showing result
-        setCurrentPlayerIndex((prev) =>
-          players.length > 0 ? (prev + 1) % players.length : 0
-        );
-      }
+      // PHASE 3 : Un seul point d'entrée pour la fin du spin
+      handleSpinComplete(deluxeResult);
     }, 5000);
   }
 
   const handlePlayersChange = (newPlayers: DeluxePlayer[]) => {
     setPlayers(newPlayers);
-    // Adjust current player index if needed
+    // Adjust next player index if needed
     if (newPlayers.length === 0) {
-      setCurrentPlayerIndex(0);
-    } else if (currentPlayerIndex >= newPlayers.length) {
-      setCurrentPlayerIndex(newPlayers.length - 1);
+      setNextPlayerIndex(0);
+      setActivePlayerIndex(null);
+    } else if (nextPlayerIndex >= newPlayers.length) {
+      setNextPlayerIndex(newPlayers.length - 1);
+    }
+    // Adjust active player index if needed
+    if (activePlayerIndex !== null && activePlayerIndex >= newPlayers.length) {
+      setActivePlayerIndex(newPlayers.length > 0 ? newPlayers.length - 1 : null);
     }
   };
 
@@ -127,19 +139,19 @@ export default function RouletteDeluxe() {
             {/* Turn Indicator */}
             {players.length > 0 && (
               <div className="text-center">
-                {lastPlayer && (
+                {activePlayerIndex !== null && (
                   <>
                     <p className="text-sm text-slate-400">Action pour :</p>
                     <p
                       className="text-3xl font-black"
                       style={{ color: DELUXE_COLORS.gold }}
                     >
-                      {lastPlayer.name}
+                      {players[activePlayerIndex].name}
                     </p>
                   </>
                 )}
                 <p className="mt-2 text-sm text-slate-500">
-                  Prochain : {currentPlayer?.name}
+                  Prochain : {players[nextPlayerIndex].name}
                 </p>
               </div>
             )}
@@ -218,28 +230,33 @@ export default function RouletteDeluxe() {
 
                   {/* Action Label */}
                   <div className="mb-4">
-                    {result.action === "drink" && lastPlayer && (
-                      <p className="text-2xl font-bold text-red-400">
-                        🍺 {lastPlayer.name} boit {result.sips} gorgée
-                        {result.sips && result.sips > 1 ? "s" : ""}
-                      </p>
-                    )}
-                    {result.action === "give" && lastPlayer && (
+                    {result.action === "drink" &&
+                      activePlayerIndex !== null && (
+                        <p className="text-2xl font-bold text-red-400">
+                          🍺 {players[activePlayerIndex].name} boit {result.sips}{" "}
+                          gorgée
+                          {result.sips && result.sips > 1 ? "s" : ""}
+                        </p>
+                      )}
+                    {result.action === "give" && activePlayerIndex !== null && (
                       <p className="text-2xl font-bold text-slate-300">
-                        🎁 {lastPlayer.name} distribue {result.sips} gorgée
+                        🎁 {players[activePlayerIndex].name} distribue{" "}
+                        {result.sips} gorgée
                         {result.sips && result.sips > 1 ? "s" : ""}
                       </p>
                     )}
-                    {result.action === "event_zero" && lastPlayer && (
-                      <p className="text-2xl font-bold text-emerald-400">
-                        🍀 Événement Zéro — {lastPlayer.name}
-                      </p>
-                    )}
-                    {result.action === "event_double_zero" && lastPlayer && (
-                      <p className="text-2xl font-bold text-emerald-400">
-                        💀 Double Zéro — {lastPlayer.name}
-                      </p>
-                    )}
+                    {result.action === "event_zero" &&
+                      activePlayerIndex !== null && (
+                        <p className="text-2xl font-bold text-emerald-400">
+                          🍀 Événement Zéro — {players[activePlayerIndex].name}
+                        </p>
+                      )}
+                    {result.action === "event_double_zero" &&
+                      activePlayerIndex !== null && (
+                        <p className="text-2xl font-bold text-emerald-400">
+                          💀 Double Zéro — {players[activePlayerIndex].name}
+                        </p>
+                      )}
                   </div>
 
                   {/* Description */}
